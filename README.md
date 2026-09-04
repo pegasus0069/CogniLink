@@ -52,7 +52,7 @@ To compile and upload the firmware using the **Arduino IDE**, ensure you have in
 ## 📂 Project Structure
 
 ```text
-CogniLink-AAC/
-├── M5StickC_Mouse.ino      # Main C++ firmware handling IMU, BLE, Wi-Fi, and Power saving
+CogniLink/
+├── m5stickc.ino            # Main C++ firmware handling IMU, BLE, Wi-Fi, and Power saving
 ├── index.h                 # Embedded HTML/CSS/JS Web UI dashboard
 └── README.md               # Project documentation
