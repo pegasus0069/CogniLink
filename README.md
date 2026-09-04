@@ -53,6 +53,8 @@ To compile and upload the firmware using the **Arduino IDE**, ensure you have in
 
 ```text
 CogniLink/
-├── m5stickc.ino            # Main C++ firmware handling IMU, BLE, Wi-Fi, and Power saving
-├── index.h                 # Embedded HTML/CSS/JS Web UI dashboard
+└── m5stickc/
+    ├── index.h             # Embedded HTML/CSS/JS Web UI dashboard
+    └── m5stickc.ino        # Main C++ firmware handling IMU, BLE, Wi-Fi, and Power saving
+├── LICENSE                 # GNU General Public License v3.0
 └── README.md               # Project documentation
