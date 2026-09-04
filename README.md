@@ -13,28 +13,29 @@
 2. [Problem Statement](#problem-statement)
 3. [Current Implementation and Scope](#current-implementation-and-scope)
 4. [Features](#features)
-5. [System Architecture](#system-architecture)
-6. [Hardware Requirements](#hardware-requirements)
-7. [Software Requirements](#software-requirements)
-8. [Libraries](#libraries)
-9. [Project Structure](#project-structure)
-10. [Installation and Upload](#installation-and-upload)
-11. [First-Time Wi-Fi Setup](#first-time-wi-fi-setup)
-12. [Bluetooth Pairing](#bluetooth-pairing)
-13. [Opening the Communicator](#opening-the-communicator)
-14. [Step-by-Step User Guide](#step-by-step-user-guide)
-15. [English and Bengali Support](#english-and-bengali-support)
-16. [Text-to-Speech Behavior](#text-to-speech-behavior)
-17. [M5StickC Controls](#m5stickc-controls)
-18. [Device Display and Status](#device-display-and-status)
-19. [Power Management](#power-management)
-20. [Wi-Fi Reset and Recovery](#wi-fi-reset-and-recovery)
-21. [Firmware Technical Reference](#firmware-technical-reference)
-22. [WebSocket Data](#websocket-data)
-23. [Troubleshooting](#troubleshooting)
-24. [Safety and Limitations](#safety-and-limitations)
-25. [Future Work](#future-work)
-26. [License](#license)
+5. [Screenshots](#screenshots)
+6. [System Architecture](#system-architecture)
+7. [Hardware Requirements](#hardware-requirements)
+8. [Software Requirements](#software-requirements)
+9. [Libraries](#libraries)
+10. [Project Structure](#project-structure)
+11. [Installation and Upload](#installation-and-upload)
+12. [First-Time Wi-Fi Setup](#first-time-wi-fi-setup)
+13. [Bluetooth Pairing](#bluetooth-pairing)
+14. [Opening the Communicator](#opening-the-communicator)
+15. [Step-by-Step User Guide](#step-by-step-user-guide)
+16. [English and Bengali Support](#english-and-bengali-support)
+17. [Text-to-Speech Behavior](#text-to-speech-behavior)
+18. [M5StickC Controls](#m5stickc-controls)
+19. [Device Display and Status](#device-display-and-status)
+20. [Power Management](#power-management)
+21. [Wi-Fi Reset and Recovery](#wi-fi-reset-and-recovery)
+22. [Firmware Technical Reference](#firmware-technical-reference)
+23. [WebSocket Data](#websocket-data)
+24. [Troubleshooting](#troubleshooting)
+25. [Safety and Limitations](#safety-and-limitations)
+26. [Future Work](#future-work)
+27. [License](#license)
 
 ## Overview
 
@@ -110,6 +111,40 @@ The project is therefore an assistive mouse and AAC communicator prototype today
 - Connection indicator and live battery percentage
 - Responsive layout with large buttons and high-visibility colors
 - Custom assistive cursor graphics
+
+## Screenshots
+
+The `Screenshots/` folder contains representative views of the connected communicator interface. Each view shows the live **CogniLink Linked** status, battery indicator, message controls, and the quick medical-needs phrase tray.
+
+### English keyboard
+
+![English ABC / 123 keyboard in the light theme](Screenshots/CogniLink%20Communicator%2001.png)
+
+The light-theme English view shows the **ABC / 123** tab selected, with number keys, a QWERTY keyboard, punctuation, a full-width **SPACE** key, and the **Clear**, **Del**, and **Speak** controls. The medical phrase tray provides fast access to suction, pain, breathing, positioning, water, nurse, yes, and no messages.
+
+### English symbols
+
+![English symbols keyboard in the light theme](Screenshots/CogniLink%20Communicator%2002.png)
+
+The light-theme symbols view shows the **Symbols** tab selected. It provides punctuation and programming-friendly symbols such as `@`, `#`, `$`, `%`, brackets, braces, slash, and question mark while retaining the same communication and medical controls.
+
+### Bengali consonants
+
+![Bengali consonants keyboard](Screenshots/CogniLink%20Communicator%2003.png)
+
+The Bengali view with **কখগ (Consonants)** selected presents Bengali consonants and Bengali character combinations. The language toggle changes to **Switch to English**, and the medical phrase tray is localized in Bengali.
+
+### Bengali vowels and numbers
+
+![Bengali vowels and numbers keyboard](Screenshots/CogniLink%20Communicator%2004.png)
+
+The **অআ & ১২৩ (Vowels/Numbers)** tab provides Bengali numerals, vowels, and vowel signs, together with the Bengali **স্পেস (SPACE)** control and localized medical phrases.
+
+### English keyboard in dark theme
+
+![English ABC / 123 keyboard in the dark theme](Screenshots/CogniLink%20Communicator%2005.png)
+
+The dark-theme English view demonstrates the alternate high-contrast color scheme. The connected status, battery indicator, English keyboard, message actions, and medical phrase tray remain available with the same layout and behavior.
 
 ## System Architecture
 
@@ -189,6 +224,7 @@ CogniLink/
 ├── m5stickc/
 │   ├── m5stickc.ino   # ESP32 firmware and device runtime
 │   └── index.h         # Embedded HTML, CSS, and JavaScript UI
+├── Screenshots/        # Representative communicator interface screenshots
 ├── LICENSE             # GNU General Public License v3.0
 └── README.md           # Project documentation
 ```
