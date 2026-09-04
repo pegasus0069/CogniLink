@@ -5,7 +5,10 @@
 ![CogniLink Banner](https://img.shields.io/badge/Status-Feature%20Complete-brightgreen)
 ![Platform](https://img.shields.io/badge/Hardware-M5StickC-blue)
 ![Interface](https://img.shields.io/badge/UI-WebSockets%20%7C%20Responsive-orange)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
+
+## 📄 License
+This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
