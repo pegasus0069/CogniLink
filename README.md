@@ -1,4 +1,4 @@
-# CogniLink: IoT-Powered AAC Communicator
+# CogniLink: Neuro-Assistive Communicator
 
 > An open-source, patient-centric Augmentative and Alternative Communication (AAC) system engineered for patients with severe motor impairments (such as ALS or advanced paralysis).
 
