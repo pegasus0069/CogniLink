@@ -36,7 +36,7 @@
 25. [Safety and Limitations](#safety-and-limitations)
 26. [Future Work](#future-work)
 27. [License](#license)
-28.[Poster of product.pdf](https://github.com/user-attachments/files/31867998/CogniLink.Neuro-Assistive.Poster.1.pdf)
+28. [Product poster (PDF)](https://github.com/user-attachments/files/31867998/CogniLink.Neuro-Assistive.Poster.1.pdf)
 
 ## Overview
 
