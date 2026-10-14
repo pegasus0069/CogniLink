@@ -142,6 +142,40 @@ const char* INDEX_HTML = R"=====(
             transition: width 0.1s linear;
         }
 
+        .battery-box {
+            display: flex; align-items: center; gap: 8px; font-weight: bold;
+        }
+        .battery-shell {
+            width: 26px; height: 13px; border: 2px solid var(--text-light); border-radius: 3px;
+            padding: 1px; position: relative; display: flex; align-items: center; box-sizing: border-box;
+        }
+        .battery-shell::after {
+            content: ''; position: absolute; right: -4px; top: 2px; width: 2px; height: 5px;
+            background: var(--text-light); border-radius: 0 1px 1px 0;
+        }
+        .battery-fill {
+            height: 100%; width: 100%; background: var(--success); border-radius: 1px;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .dwell-ring-box {
+            position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; pointer-events: none;
+        }
+        .dwell-ring-svg {
+            width: 100%; height: 100%; transform: rotate(-90deg);
+        }
+        .dwell-circle-bg {
+            fill: none; stroke: rgba(0, 0, 0, 0.1); stroke-width: 3.5;
+        }
+        body.dark-mode .dwell-circle-bg {
+            stroke: rgba(255, 255, 255, 0.18);
+        }
+        .dwell-circle-fg {
+            fill: none; stroke: var(--danger); stroke-width: 3.5; stroke-linecap: round;
+            stroke-dasharray: 81.68; stroke-dashoffset: 81.68;
+            transition: stroke-dashoffset 0.04s linear;
+        }
+
         ::-webkit-scrollbar { display: none; }
     </style>
 </head>
@@ -158,9 +192,12 @@ const char* INDEX_HTML = R"=====(
         <div class="status-indicator">
             <div class="dot"></div><span id="ws-status">Disconnected</span>
         </div>
-        <div class="status-indicator">
-            🔋 <span id="bat">--%</span>
-            <div class="settings-icon" onclick="toggleSettings()">⚙️</div>
+        <div class="status-indicator battery-box" title="Device Battery Level">
+            <div class="battery-shell">
+                <div class="battery-fill" id="bat-fill"></div>
+            </div>
+            <span id="bat">--%</span>
+            <div class="settings-icon" onclick="toggleSettings()" title="Settings">⚙️</div>
         </div>
 
         <div class="settings-menu" id="settings-menu">
@@ -186,6 +223,19 @@ const char* INDEX_HTML = R"=====(
                     <button class="toggle-btn" id="btn-offline" onclick="setEngine('offline')">System</button>
                 </div>
             </div>
+            <div class="setting-item">
+                Dwell Time
+                <div class="toggle-group" id="dwell-group">
+                    <button class="toggle-btn" id="dwell-500" onclick="setDwellTime(500)">0.5s</button>
+                    <button class="toggle-btn" id="dwell-1000" onclick="setDwellTime(1000)">1.0s</button>
+                    <button class="toggle-btn" id="dwell-2000" onclick="setDwellTime(2000)">2.0s</button>
+                    <button class="toggle-btn active" id="dwell-5000" onclick="setDwellTime(5000)">5.0s</button>
+                </div>
+            </div>
+            <div class="setting-item" style="border-top: 1px solid var(--key-border); padding-top: 8px;">
+                Dwell Benchmark
+                <button class="toggle-btn" style="background: var(--primary); color: white;" onclick="exportDwellCSV()">📥 Export CSV</button>
+            </div>
         </div>
     </div>
 
@@ -205,7 +255,7 @@ const char* INDEX_HTML = R"=====(
     <div class="tabs" id="tabs-container"></div>
     <div class="keyboard" id="keyboard"></div>
     
-    <div class="tray-title">🏥 Quick Medical Needs (Hover 5s to trigger)</div>
+    <div class="tray-title" id="tray-title">🏥 Quick Medical Needs (Hover 5.0s to trigger)</div>
     <div class="medical-tray" id="medical-tray"></div>
 
     <script>
@@ -217,6 +267,50 @@ const char* INDEX_HTML = R"=====(
         let prefTheme = 'light';
         let prefGender = 'female';
         let prefEngine = 'cloud'; 
+
+        // --- DWELL & BENCHMARK VARIABLES ---
+        let dwellDuration = 5000; // Default 5.0s, adjustable to 0.5s, 1.0s, 2.0s, 5.0s
+        let dwellLogs = []; // Stores high-precision dwell trials for bench evaluation
+
+        function setDwellTime(ms) {
+            playClickSound();
+            dwellDuration = ms;
+            ['500','1000','2000','5000'].forEach(d => {
+                const btn = document.getElementById(`dwell-${d}`);
+                if (btn) btn.classList.toggle('active', parseInt(d) === ms);
+            });
+            const trayTitle = document.getElementById('tray-title');
+            if (trayTitle) trayTitle.innerText = `🏥 Quick Medical Needs (Dwell ${(ms/1000).toFixed(1)}s to trigger)`;
+        }
+
+        function logDwellTrial(targetMs, actualMs, label) {
+            let record = {
+                trial: dwellLogs.length + 1,
+                timestamp: new Date().toISOString(),
+                target_s: (targetMs / 1000).toFixed(1),
+                actual_ms: actualMs.toFixed(2),
+                error_ms: (actualMs - targetMs).toFixed(2),
+                label: label
+            };
+            dwellLogs.push(record);
+            console.log("[CogniLink Dwell Trial]", record);
+        }
+
+        function exportDwellCSV() {
+            if (dwellLogs.length === 0) {
+                alert("No dwell trials recorded yet. Dwell over phrases to record trials.");
+                return;
+            }
+            let csv = "Trial,Timestamp,Target_s,Actual_ms,Error_ms,Key\n" +
+                dwellLogs.map(r => `${r.trial},${r.timestamp},${r.target_s},${r.actual_ms},${r.error_ms},"${r.label}"`).join("\n");
+            let blob = new Blob([csv], { type: 'text/csv' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = `cognilink_dwell_benchmark_${Date.now()}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
 
         const display = document.getElementById('text-output');
         const synth = window.speechSynthesis;
@@ -455,7 +549,7 @@ const char* INDEX_HTML = R"=====(
                     ['ক','খ','গ','ঘ','ঙ','চ','ছ','জ','ঝ','ঞ'],
                     ['ট','ঠ','ড','ঢ','ণ','ত','থ','দ','ধ','ন'],
                     ['প','ফ','ব','ভ','ম','য','র','ল','শ','ষ'],
-                    ['স','হ','ড়','ঢ়','য়','ৎ','ং','ঃ','ঁ'],
+                    ['স','হ','ড়','ঢ়','য়','ৎ','ং','ঃ','ঁ','্'],
                     ['া','ি','ী','ু','ূ','ৃ','ে','ৈ','ো','ৌ']
                 ],
                 vowels: [
@@ -513,6 +607,7 @@ const char* INDEX_HTML = R"=====(
             sentence += char;
             display.innerText = sentence;
             if(char === " ") speak("Space", true);
+            else if(char === "্") speak("হসন্ত", true);
             else speak(char, true);
         }
 
@@ -615,24 +710,40 @@ const char* INDEX_HTML = R"=====(
                 fillBar.className = 'dwell-progress';
                 btn.appendChild(fillBar);
 
+                const ringBox = document.createElement('div');
+                ringBox.className = 'dwell-ring-box';
+                ringBox.innerHTML = `
+                    <svg class="dwell-ring-svg" viewBox="0 0 32 32">
+                        <circle class="dwell-circle-bg" cx="16" cy="16" r="13"></circle>
+                        <circle class="dwell-circle-fg" cx="16" cy="16" r="13"></circle>
+                    </svg>
+                `;
+                btn.appendChild(ringBox);
+                const fgCircle = ringBox.querySelector('.dwell-circle-fg');
+                const circumference = 81.68; // 2 * PI * 13
+
                 let startTime = 0;
                 let animFrame = null;
 
                 btn.onclick = () => playMedicalPhrase(phrase);
 
                 btn.onmouseenter = () => {
-                    startTime = Date.now();
-                    const duration = 5000; 
+                    startTime = performance.now();
+                    const targetDuration = dwellDuration; 
 
                     function updateProgress() {
-                        let elapsed = Date.now() - startTime;
-                        let pct = (elapsed / duration) * 100;
-                        if (pct > 100) pct = 100;
-                        fillBar.style.width = pct + '%';
+                        let elapsed = performance.now() - startTime;
+                        let pct = elapsed / targetDuration;
+                        if (pct > 1) pct = 1;
+                        fillBar.style.width = (pct * 100) + '%';
+                        if (fgCircle) {
+                            fgCircle.style.strokeDashoffset = (circumference * (1 - pct)).toString();
+                        }
 
-                        if (elapsed < duration) {
+                        if (elapsed < targetDuration) {
                             animFrame = requestAnimationFrame(updateProgress);
                         } else {
+                            logDwellTrial(targetDuration, elapsed, phrase.t);
                             playMedicalPhrase(phrase);
                             resetDwell();
                         }
@@ -647,6 +758,9 @@ const char* INDEX_HTML = R"=====(
                 function resetDwell() {
                     if (animFrame) cancelAnimationFrame(animFrame);
                     fillBar.style.width = '0%';
+                    if (fgCircle) {
+                        fgCircle.style.strokeDashoffset = circumference.toString();
+                    }
                 }
 
                 medicalTray.appendChild(btn);
@@ -672,11 +786,23 @@ const char* INDEX_HTML = R"=====(
             websocket.onmessage = (event) => {
                 var data = JSON.parse(event.data);
                 var batElement = document.getElementById('bat');
+                var batFill = document.getElementById('bat-fill');
                 if(batElement) {
                     batElement.innerHTML = data.bat + "%";
-                    if(data.bat <= 20) batElement.style.color = "var(--danger)";
-                    else if(data.bat <= 50) batElement.style.color = "var(--warning)";
-                    else batElement.style.color = "var(--success)";
+                }
+                if(batFill) {
+                    var pct = Math.min(100, Math.max(0, data.bat));
+                    batFill.style.width = pct + "%";
+                    if(data.bat <= 20) {
+                        batFill.style.background = "var(--danger)";
+                        if(batElement) batElement.style.color = "var(--danger)";
+                    } else if(data.bat <= 50) {
+                        batFill.style.background = "var(--warning)";
+                        if(batElement) batElement.style.color = "var(--warning)";
+                    } else {
+                        batFill.style.background = "var(--success)";
+                        if(batElement) batElement.style.color = "var(--success)";
+                    }
                 }
             };
         }

@@ -1,0 +1,11 @@
+# Ignored directories as per project configuration
+scratch/
+scripts/
+
+# IDE & Editor artifacts
+.vscode/
+
+# Python compiled cache
+__pycache__/
+*.py[cod]
+*$py.class

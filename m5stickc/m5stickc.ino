@@ -256,11 +256,14 @@ void loop() {
     int moveX = 0;
     int moveY = 0;
     
+    // --- Equation (1) Kinematic Mapping: Threshold subtraction & [-127, 127] clipping ---
     if (abs(gz) > deadzone) {
-      moveX = (int)(gz * sensitivity);
+      float effective_gz = (gz > 0) ? (gz - deadzone) : (gz + deadzone);
+      moveX = constrain((int)(effective_gz * sensitivity), -127, 127);
     }
     if (abs(gx) > deadzone) {
-      moveY = (int)(gx * sensitivity); 
+      float effective_gx = (gx > 0) ? (gx - deadzone) : (gx + deadzone);
+      moveY = constrain((int)(effective_gx * sensitivity), -127, 127); 
     }
 
     if (moveX != 0 || moveY != 0) {
