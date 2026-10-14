@@ -1,0 +1,311 @@
+\relax 
+\citation{IEEEexample:BSTcontrol}
+\citation{tomik2010}
+\citation{andersen2010}
+\citation{waller2025}
+\citation{who2022}
+\citation{pryor2018}
+\citation{amery2022}
+\citation{britannica}
+\citation{montechquha,glassouse}
+\citation{lipsync,flipmouse}
+\citation{cboard,astericsgrid}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
+\newlabel{sec:intro}{{I}{1}{}{section.1}{}}
+\citation{waller2025}
+\citation{montechpceye}
+\citation{cboard}
+\citation{astericsgrid}
+\citation{betke2002}
+\citation{vojtech2020}
+\citation{hassan2019}
+\citation{roigmaimo2018}
+\citation{kabir2026}
+\citation{vojtech2020}
+\citation{groll2020}
+\citation{kabir2026}
+\citation{kabir2023}
+\citation{montechquha}
+\citation{glassouse}
+\citation{lipsync}
+\citation{flipmouse}
+\citation{shen2024}
+\citation{zhao2021}
+\citation{montechpceye}
+\citation{montechquha}
+\citation{glassouse}
+\citation{betke2002,vojtech2020}
+\citation{lipsync}
+\citation{flipmouse}
+\citation{cboard}
+\citation{astericsgrid}
+\citation{jacob1990}
+\citation{majaranta2009}
+\citation{helmert2008}
+\citation{majaranta2009}
+\citation{mott2017}
+\citation{burnham2025}
+\citation{groll2020}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Mounting configurations supported by the CogniLink cradle: a dorsal finger ring on the proximal phalanx (default), a wrist strap, an eyeglass temple, a headband, and the dorsum of the big toe (hallux).}}{2}{}\protected@file@percent }
+\newlabel{fig:mounting}{{1}{2}{}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{2}{}\protected@file@percent }
+\newlabel{sec:related}{{II}{2}{}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}AAC and Access Methods}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Motion-Based and Wearable Pointing}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Dwell Selection}{2}{}\protected@file@percent }
+\citation{waller2025}
+\citation{koester1994}
+\citation{koester1996}
+\citation{sarcar2015}
+\citation{arif2016}
+\citation{cboard}
+\citation{flipmouse}
+\citation{amery2022}
+\citation{waller2025}
+\citation{who2022,pryor2018}
+\citation{jacob1990,hassan2019}
+\citation{m5stickc}
+\citation{m5stickc}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces CogniLink Compared With Existing Access Devices and AAC Software. Costs Are Published Estimates in US Dollars; n/a Means Not Applicable and n/r Means Not Reported.}}{3}{}\protected@file@percent }
+\newlabel{tab:comparison}{{I}{3}{}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}Text Entry Rate and Word Prediction}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-E}}Bengali Text Entry and Multilingual AAC}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Design Goals}{3}{}\protected@file@percent }
+\newlabel{sec:goals}{{III}{3}{}{section.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Hardware}{3}{}\protected@file@percent }
+\newlabel{sec:hardware}{{IV}{3}{}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}System Overview}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Form Factor and Mounting Sites}{3}{}\protected@file@percent }
+\newlabel{sec:mounting}{{\mbox  {IV-B}}{3}{}{subsection.4.2}{}}
+\citation{esp32picod4,esp32picoseries}
+\citation{mpu6886}
+\citation{m5stickc}
+\citation{mpu6886}
+\citation{mpu6886}
+\citation{m5stickc}
+\citation{m5stickc}
+\citation{m5stickc}
+\citation{hogp}
+\citation{usbhid}
+\citation{btcore62}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces System architecture. On core~1, gyroscope readings are corrected for bias, passed through the deadzone and gain, clipped, and sent to the host as BLE HID mouse reports. On core~0, the unit serves the communicator page and pushes telemetry over Wi-Fi, either through a local network or through its own setup access point. The communicator in the host browser handles dwell selection and speech.}}{4}{}\protected@file@percent }
+\newlabel{fig:architecture}{{2}{4}{}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Processing, Sensing, and Power}{4}{}\protected@file@percent }
+\newlabel{sec:sensing}{{\mbox  {IV-C}}{4}{}{subsection.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Hardware architecture and electrical interconnections of the wearable unit, including the division of work between the two processor cores.}}{4}{}\protected@file@percent }
+\newlabel{fig:hardware}{{3}{4}{}{figure.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Firmware}{4}{}\protected@file@percent }
+\newlabel{sec:firmware}{{V}{4}{}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Task Partitioning and Communication}{4}{}\protected@file@percent }
+\citation{mpu6886}
+\citation{usbhid}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Operating States}{5}{}\protected@file@percent }
+\newlabel{sec:states}{{\mbox  {V-B}}{5}{}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Bias Calibration}{5}{}\protected@file@percent }
+\newlabel{sec:calibration}{{\mbox  {V-C}}{5}{}{subsection.5.3}{}}
+\newlabel{eq:bias}{{1}{5}{}{equation.1}{}}
+\newlabel{eq:raw}{{2}{5}{}{equation.2}{}}
+\newlabel{eq:corr}{{3}{5}{}{equation.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces \IfFileExists  {figures/fig3_firmware_state_machine.png}{Firmware state machine and dual-radio concurrency model.}{Firmware state machine with the mean current measured in each state. After calibration, the unit joins a saved network or opens a setup access point; in both cases it then serves the communicator and acts as a BLE mouse. Idle periods dim and then switch off the backlight, and a 5~s hold of Button~B erases the stored settings.}}}{5}{}\protected@file@percent }
+\newlabel{fig:fsm}{{4}{5}{}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Velocity Control Law}{5}{}\protected@file@percent }
+\newlabel{sec:law}{{\mbox  {V-D}}{5}{}{subsection.5.4}{}}
+\newlabel{eq:dx}{{4}{5}{}{equation.4}{}}
+\newlabel{eq:dy}{{5}{5}{}{equation.5}{}}
+\newlabel{eq:clip}{{6}{5}{}{equation.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Operating States, Active Subsystems, Mean Current, and Transitions}}{6}{}\protected@file@percent }
+\newlabel{tab:states}{{II}{6}{}{table.2}{}}
+\newlabel{eq:onset}{{7}{6}{}{equation.7}{}}
+\newlabel{eq:speed}{{8}{6}{}{equation.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Transfer function of the control law for $\theta =1.20$\,\ensuremath  {^{\circ }}/s{} and $K=0.60$. (a) Near the threshold, the simple threshold jumps to one count at $\theta $, whereas threshold subtraction starts from zero and gives its first count at $\omega _{\mathrm  {on}}\approx 2.03$\,\ensuremath  {^{\circ }}/s{} because of rounding. (b) Over the full range the output grows linearly and saturates at 127 counts at $\omega _{\mathrm  {sat}}\approx 212$\,\ensuremath  {^{\circ }}/s. At 50 reports per second, one count per report equals 50 counts/s.}}{6}{}\protected@file@percent }
+\newlabel{fig:transfer}{{5}{6}{}{figure.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Bilingual Communicator}{6}{}\protected@file@percent }
+\newlabel{sec:communicator}{{VI}{6}{}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Delivery as a Self-Hosted Web Page}{6}{}\protected@file@percent }
+\citation{fitts1954}
+\citation{helmert2008,burnham2025}
+\citation{webspeech}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Default Firmware and Communicator Parameters}}{7}{}\protected@file@percent }
+\newlabel{tab:params}{{III}{7}{}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Target Sizing}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}English and Bengali Keyboards}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Dwell Selection}{7}{}\protected@file@percent }
+\newlabel{eq:ring}{{9}{7}{}{equation.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Emergency Phrases}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Speech Output}{7}{}\protected@file@percent }
+\newlabel{sec:speech}{{\mbox  {VI-F}}{7}{}{subsection.6.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The bilingual communicator dashboard across its operating modes, layouts, and themes.}}{8}{}\protected@file@percent }
+\newlabel{fig:ui}{{6}{8}{}{figure.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Physical Target Sizes on Four Displays (mm)}}{8}{}\protected@file@percent }
+\newlabel{tab:targets}{{IV}{8}{}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Emergency Phrases. The Last Column Gives the Number of Selections Needed to Type Each Sentence Instead (English/Bengali).}}{8}{}\protected@file@percent }
+\newlabel{tab:phrases}{{V}{8}{}{table.5}{}}
+\citation{koester1994,koester1996}
+\citation{sarcar2015}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Key order of the Bengali keyboard. (a) The consonant tab places the stops in groups of five by place of articulation, followed by the semivowels, sibilants, other consonants, signs, and the hasanta (outlined), with the dependent vowel signs in Row~5. (b) The second tab holds the independent vowels and digits. Colors mark the groups; the exact on-screen layout is shown in Fig.~\ref {fig:ui}.}}{9}{}\protected@file@percent }
+\newlabel{fig:keyboard}{{7}{9}{}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-G}}Sequential Entry Without Prediction}{9}{}\protected@file@percent }
+\newlabel{sec:noprediction}{{\mbox  {VI-G}}{9}{}{subsection.6.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Evaluation Methodology}{9}{}\protected@file@percent }
+\newlabel{sec:method}{{VII}{9}{}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}Units, Hosts, and Conditions}{9}{}\protected@file@percent }
+\newlabel{eq:frame}{{10}{9}{}{equation.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Host Platforms Used in the Evaluation}}{9}{}\protected@file@percent }
+\newlabel{tab:hosts}{{VI}{9}{}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Motion-to-Photon Latency}{9}{}\protected@file@percent }
+\newlabel{sec:method_latency}{{\mbox  {VII-B}}{9}{}{subsection.7.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}Resting Stability}{9}{}\protected@file@percent }
+\citation{cboard}
+\citation{astericsgrid}
+\citation{mpu6886}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Optoelectronic latency testbed and signal path. A GPIO marker raised by the firmware when motion is detected ($t_0$) and the output of a photodiode on the television screen ($t_1$) are recorded on two oscilloscope channels.}}{10}{}\protected@file@percent }
+\newlabel{fig:testbed}{{8}{10}{}{figure.8}{}}
+\newlabel{eq:drift}{{11}{10}{}{equation.11}{}}
+\newlabel{eq:vdrift}{{12}{10}{}{equation.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-D}}HID Report Timing}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-E}}Dwell Timing}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-F}}Power}{10}{}\protected@file@percent }
+\newlabel{eq:runtime}{{13}{10}{}{equation.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-G}}Speech Onset}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-H}}Compatibility}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-I}}Data Analysis and Availability}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Results}{10}{}\protected@file@percent }
+\newlabel{sec:results}{{VIII}{10}{}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-A}}Motion-to-Photon Latency}{10}{}\protected@file@percent }
+\newlabel{eq:latency}{{14}{10}{}{equation.14}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Timing Measurements (ms). CI: 95\% Confidence Interval of the Mean; n/r: Not Reported.}}{11}{}\protected@file@percent }
+\newlabel{tab:timing}{{VII}{11}{}{table.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Benchmark results. (a) Distribution of motion-to-photon latency, with the mean marked, the 95\% confidence band shaded, and an inset box plot. (b) \textcolor {red}{[CHECK: describe panel (b); the specification does not refer to it]}. (c) Dwell timing accuracy at the four dwell times. (d) Speech onset latency for cloud and offline engines in English and Bengali. (e) Intervals between successive HID reports with a fitted Gaussian. (f) Battery discharge from 4.20 to 3.30~V.}}{11}{}\protected@file@percent }
+\newlabel{fig:bench}{{9}{11}{}{figure.9}{}}
+\newlabel{eq:scan}{{15}{11}{}{equation.15}{}}
+\citation{glassouse}
+\citation{montechquha}
+\citation{montechpceye}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Latency Budget From Detected Motion to Light at Mid-Screen}}{12}{}\protected@file@percent }
+\newlabel{tab:budget}{{VIII}{12}{}{table.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Cursor Displacement After 60 s at Rest (28.0\,\ensuremath  {^{\circ }}C, 3000 Samples per Run)}}{12}{}\protected@file@percent }
+\newlabel{tab:drift}{{IX}{12}{}{table.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-B}}Resting Stability}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-C}}Report Timing}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-D}}Dwell Timing}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-E}}Power and Runtime}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-F}}Speech Onset}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-G}}Compatibility}{12}{}\protected@file@percent }
+\newlabel{sec:res_compat}{{\mbox  {VIII-G}}{12}{}{subsection.8.7}{}}
+\citation{mackenzie1993}
+\citation{btcore62}
+\citation{btcore62}
+\citation{esp32picod4}
+\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces Measured Current and Estimated Runtime From an 80~mAh Cell}}{13}{}\protected@file@percent }
+\newlabel{tab:power}{{X}{13}{}{table.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XI}{\ignorespaces Compatibility Across Host Platforms}}{13}{}\protected@file@percent }
+\newlabel{tab:compat}{{XI}{13}{}{table.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {XII}{\ignorespaces Bill of Materials (Single-Unit Prices)}}{13}{}\protected@file@percent }
+\newlabel{tab:bom}{{XII}{13}{}{table.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-H}}Cost}{13}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Discussion}{13}{}\protected@file@percent }
+\newlabel{sec:discussion}{{IX}{13}{}{section.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-A}}Latency in Context}{13}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-B}}Deadzone Design}{13}{}\protected@file@percent }
+\citation{helmert2008}
+\citation{majaranta2009}
+\citation{burnham2025}
+\citation{groll2020}
+\citation{mott2017}
+\citation{fitts1954}
+\citation{sarcar2015}
+\citation{arif2016}
+\citation{koester1996}
+\citation{montechquha,glassouse}
+\citation{flipmouse}
+\citation{cboard,astericsgrid}
+\citation{mpu6886}
+\citation{m5stickc}
+\citation{m5stickc}
+\citation{esp32picoseries}
+\citation{iso2012,douglas1999}
+\citation{mackenzie2003,arif2016}
+\citation{soukoreff2003,sarcar2015}
+\citation{brooke1996}
+\citation{demers2002}
+\citation{day1996}
+\citation{hart1988}
+\citation{braun2006}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-C}}Dwell Timing and Choice of Dwell Time}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-D}}Large Displays at the Bedside}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-E}}Bengali Text Entry}{14}{}\protected@file@percent }
+\newlabel{sec:disc_bengali}{{\mbox  {IX-E}}{14}{}{subsection.9.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-F}}Positioning Against Existing Systems}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-G}}Privacy, Safety, and Online Services}{14}{}\protected@file@percent }
+\newlabel{sec:privacy}{{\mbox  {IX-G}}{14}{}{subsection.9.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-H}}Limitations}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-I}}Future Work}{14}{}\protected@file@percent }
+\citation{vojtech2020}
+\citation{guy2018}
+\citation{wolpaw2018}
+\citation{willett2023}
+\citation{card2024}
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{tomik2010}{1}
+\bibcite{andersen2010}{2}
+\bibcite{waller2025}{3}
+\bibcite{who2022}{4}
+\bibcite{pryor2018}{5}
+\bibcite{amery2022}{6}
+\bibcite{britannica}{7}
+\bibcite{montechquha}{8}
+\bibcite{glassouse}{9}
+\bibcite{lipsync}{10}
+\bibcite{flipmouse}{11}
+\bibcite{cboard}{12}
+\bibcite{astericsgrid}{13}
+\bibcite{montechpceye}{14}
+\bibcite{betke2002}{15}
+\bibcite{vojtech2020}{16}
+\bibcite{hassan2019}{17}
+\bibcite{roigmaimo2018}{18}
+\bibcite{kabir2026}{19}
+\bibcite{groll2020}{20}
+\bibcite{kabir2023}{21}
+\bibcite{shen2024}{22}
+\bibcite{zhao2021}{23}
+\bibcite{jacob1990}{24}
+\bibcite{majaranta2009}{25}
+\bibcite{helmert2008}{26}
+\bibcite{mott2017}{27}
+\@writefile{toc}{\contentsline {section}{\numberline {X}Conclusion}{15}{}\protected@file@percent }
+\newlabel{sec:conclusion}{{X}{15}{}{section.10}{}}
+\@writefile{toc}{\contentsline {section}{References}{15}{}\protected@file@percent }
+\bibcite{burnham2025}{28}
+\bibcite{koester1994}{29}
+\bibcite{koester1996}{30}
+\bibcite{sarcar2015}{31}
+\bibcite{arif2016}{32}
+\bibcite{m5stickc}{33}
+\bibcite{esp32picod4}{34}
+\bibcite{esp32picoseries}{35}
+\bibcite{mpu6886}{36}
+\bibcite{hogp}{37}
+\bibcite{usbhid}{38}
+\bibcite{btcore62}{39}
+\bibcite{fitts1954}{40}
+\bibcite{webspeech}{41}
+\bibcite{mackenzie1993}{42}
+\bibcite{iso2012}{43}
+\bibcite{douglas1999}{44}
+\bibcite{mackenzie2003}{45}
+\bibcite{soukoreff2003}{46}
+\bibcite{brooke1996}{47}
+\bibcite{demers2002}{48}
+\bibcite{day1996}{49}
+\bibcite{hart1988}{50}
+\bibcite{braun2006}{51}
+\bibcite{guy2018}{52}
+\bibcite{wolpaw2018}{53}
+\bibcite{willett2023}{54}
+\bibcite{card2024}{55}
+\@writefile{toc}{\contentsline {section}{Biographies}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Noor-E Sadman}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\textcolor {red}{[Co-author Name]}}{16}{}\protected@file@percent }
+\gdef \@abspage@last{16}

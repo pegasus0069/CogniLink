@@ -1,0 +1,80 @@
+% =========================================================================
+% Schematic of the CogniLink Bengali keyboard (key order and grouping).
+% Compile with XeLaTeX:  xelatex bengali_keyboard.tex
+% Output: bengali_keyboard.pdf, included by main.tex as a figure.
+% Key order follows the communicator source (consonant tab, rows 1 to 5,
+% and the vowel and numeral tab). Colours mark the articulatory groups.
+% =========================================================================
+\documentclass[border=1pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Termes}
+\newfontfamily\bnfont[Script=Bengali]{Noto Sans Bengali}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+% Colour-blind-safe tints (Okabe-Ito hues, lightened)
+\definecolor{cVel}{HTML}{CFE3F3}  % velar
+\definecolor{cPal}{HTML}{FBE0C3}  % palatal
+\definecolor{cRet}{HTML}{CDEBDD}  % retroflex
+\definecolor{cDen}{HTML}{F8F1BE}  % dental
+\definecolor{cLab}{HTML}{EAD3E3}  % labial
+\definecolor{cOth}{HTML}{E4E4E4}  % semivowels, sibilants, other consonants
+\definecolor{cSig}{HTML}{FFFFFF}  % signs (anusvara, visarga, chandrabindu)
+\definecolor{cHas}{HTML}{D55E00}  % hasanta (highlight)
+\definecolor{cKar}{HTML}{CBE9F2}  % dependent vowel signs
+\definecolor{cVow}{HTML}{DDE8C8}  % independent vowels
+\definecolor{cNum}{HTML}{F2F2F2}  % numerals
+
+\tikzset{
+  key/.style={draw=black!55, rounded corners=1.2pt, minimum width=7.3mm,
+              minimum height=6.6mm, inner sep=0pt, font=\bnfont\fontsize{10}{10}\selectfont},
+  lab/.style={font=\fontsize{8}{9}\selectfont, anchor=east},
+  ttl/.style={font=\fontsize{8.5}{10}\selectfont\itshape, anchor=west},
+}
+\newcommand{\pitch}{8.2mm}
+\newcommand{\rowgap}{7.5mm}
+
+% \keyrow{y}{list of colour/glyph pairs}
+\newcommand{\keyrow}[2]{%
+  \foreach \c/\g [count=\i from 0] in {#2}{%
+    \node[key, fill=\c] at (\i*\pitch, #1) {\g};}}
+
+\begin{document}
+\begin{tikzpicture}
+% ==== (a) Consonant tab
+\node[ttl] at (-0.45*\pitch, 0.9*\rowgap) {(a) Consonant tab};
+\keyrow{0}{cVel/ক,cVel/খ,cVel/গ,cVel/ঘ,cVel/ঙ,cPal/চ,cPal/ছ,cPal/জ,cPal/ঝ,cPal/ঞ}
+\keyrow{-\rowgap}{cRet/ট,cRet/ঠ,cRet/ড,cRet/ঢ,cRet/ণ,cDen/ত,cDen/থ,cDen/দ,cDen/ধ,cDen/ন}
+\keyrow{-2*\rowgap}{cLab/প,cLab/ফ,cLab/ব,cLab/ভ,cLab/ম,cOth/য,cOth/র,cOth/ল,cOth/শ,cOth/ষ}
+\keyrow{-3*\rowgap}{cOth/স,cOth/হ,cOth/ড়,cOth/ঢ়,cOth/য়,cOth/ৎ,cSig/◌ং,cSig/◌ঃ,cSig/◌ঁ}
+\node[key, fill=cHas!25, draw=cHas, line width=0.9pt] at (9*\pitch,-3*\rowgap) {◌্};
+\keyrow{-4*\rowgap}{cKar/◌া,cKar/◌ি,cKar/◌ী,cKar/◌ু,cKar/◌ূ,cKar/◌ৃ,cKar/◌ে,cKar/◌ৈ,cKar/◌ো,cKar/◌ৌ}
+\foreach \r/\t in {0/1,1/2,2/3,3/4,4/5}{\node[lab] at (-0.55*\pitch,-\r*\rowgap) {Row \t};}
+
+% ==== (b) Vowel and numeral tab
+\begin{scope}[yshift=-6.0*\rowgap]
+\node[ttl] at (-0.45*\pitch, 0.9*\rowgap) {(b) Vowel and numeral tab};
+\keyrow{0}{cVow/অ,cVow/আ,cVow/ই,cVow/ঈ,cVow/উ,cVow/ঊ,cVow/ঋ,cVow/এ,cVow/ঐ,cVow/ও}
+\node[key, fill=cVow] at (10*\pitch,0) {ঔ};
+\keyrow{-\rowgap}{cNum/০,cNum/১,cNum/২,cNum/৩,cNum/৪,cNum/৫,cNum/৬,cNum/৭,cNum/৮,cNum/৯}
+\node[lab] at (-0.55*\pitch,0) {Vowels};
+\node[lab] at (-0.55*\pitch,-\rowgap) {Digits};
+\end{scope}
+
+% ==== Legend
+\tikzset{sw/.style={draw=black!55, minimum width=2.8mm, minimum height=2.8mm, inner sep=0pt},
+         lt/.style={anchor=west, inner sep=1.2pt, text height=1.55ex, text depth=0.35ex, font=\fontsize{8}{9}\selectfont}}
+\begin{scope}[yshift=-8.0*\rowgap]
+\node[sw, fill=cVel] (a1) at (-0.4*\pitch,0) {};  \node[lt] (b1) at (a1.east) {Velar};
+\node[sw, fill=cPal, right=3.2mm of b1] (a2) {}; \node[lt] (b2) at (a2.east) {Palatal};
+\node[sw, fill=cRet, right=3.2mm of b2] (a3) {}; \node[lt] (b3) at (a3.east) {Retroflex};
+\node[sw, fill=cDen, right=3.2mm of b3] (a4) {}; \node[lt] (b4) at (a4.east) {Dental};
+\node[sw, fill=cLab, right=3.2mm of b4] (a5) {}; \node[lt] (b5) at (a5.east) {Labial};
+\node[sw, fill=cOth] (c1) at (-0.4*\pitch,-4.6mm) {}; \node[lt] (d1) at (c1.east) {Other consonants};
+\node[sw, fill=cSig, right=3.2mm of d1] (c2) {}; \node[lt] (d2) at (c2.east) {Signs};
+\node[sw, fill=cKar, right=3.2mm of d2] (c3) {}; \node[lt] (d3) at (c3.east) {Vowel signs};
+\node[sw, fill=cVow, right=3.2mm of d3] (c4) {}; \node[lt] (d4) at (c4.east) {Vowels};
+\node[sw, fill=cHas!25, draw=cHas, line width=0.9pt, right=3.2mm of d4] (c5) {}; \node[lt] (d5) at (c5.east) {Hasanta};
+\end{scope}
+\end{tikzpicture}
+\end{document}
