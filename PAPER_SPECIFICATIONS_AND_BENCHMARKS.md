@@ -115,23 +115,23 @@ Directly mapping unconstrained angular velocity to cursor velocity causes severe
 
 $$
 \begin{equation} \tag{4}
-\Delta x = \operatorname{clip}\left( \operatorname{sgn}(\omega_{\text{corr}, z}) \cdot \max\left(0, |\omega_{\text{corr}, z}| - \theta\right) \cdot K_x,\; -127,\; 127 \right)
+\Delta x = \mathrm{clip}\left( \mathrm{sgn}(\omega_{\text{corr}, z}) \cdot \max\left(0, |\omega_{\text{corr}, z}| - \theta\right) \cdot K_x,\; -127,\; 127 \right)
 \end{equation}
 $$
 
-where $\omega_{\text{corr}, z}$ is the offset-compensated yaw angular rate in degrees per second, $\theta = 1.20^\circ/\mathrm{s}$ represents the empirically optimized deadzone threshold, $K_x = 0.60$ is the horizontal sensitivity gain constant, and $\operatorname{sgn}(\cdot)$ denotes the signum function extracting motion directionality. The mathematical term $\max(0, |\omega_{\text{corr}, z}| - \theta)$ guarantees that for any angular velocity below $\theta$, the synthesized displacement is identically zero. Crucially, as angular rate exceeds $\theta$, displacement scales smoothly upward from zero counts, eliminating perceptual velocity discontinuities and providing smooth control over small visual targets.
+where $\omega_{\text{corr}, z}$ is the offset-compensated yaw angular rate in degrees per second, $\theta = 1.20^\circ/\mathrm{s}$ represents the empirically optimized deadzone threshold, $K_x = 0.60$ is the horizontal sensitivity gain constant, and $\mathrm{sgn}(\cdot)$ denotes the signum function extracting motion directionality. The mathematical term $\max(0, |\omega_{\text{corr}, z}| - \theta)$ guarantees that for any angular velocity below $\theta$, the synthesized displacement is identically zero. Crucially, as angular rate exceeds $\theta$, displacement scales smoothly upward from zero counts, eliminating perceptual velocity discontinuities and providing smooth control over small visual targets.
 
 The corresponding vertical cursor displacement $\Delta y$ is formulated with an inverted sign to align with standard screen coordinate systems, where the origin $(0,0)$ resides in the upper-left corner and vertical coordinate indices increase downward:
 
 $$
 \begin{equation} \tag{5}
-\Delta y = \operatorname{clip}\left( -\operatorname{sgn}(\omega_{\text{corr}, x}) \cdot \max\left(0, |\omega_{\text{corr}, x}| - \theta\right) \cdot K_y,\; -127,\; 127 \right)
+\Delta y = \mathrm{clip}\left( -\mathrm{sgn}(\omega_{\text{corr}, x}) \cdot \max\left(0, |\omega_{\text{corr}, x}| - \theta\right) \cdot K_y,\; -127,\; 127 \right)
 \end{equation}
 $$
 
 where $\omega_{\text{corr}, x}$ is the pitch angular rate, and $K_y = 0.60$ is the vertical sensitivity gain constant.
 
-The saturation operator $\operatorname{clip}(v, -127, 127) = \max(-127, \min(127, \operatorname{round}(v)))$ enforces strict conformance with standard Bluetooth HID mouse report descriptors. Standard HID mouse descriptors define relative movement coordinates as signed 8-bit two's complement integers ranging from $-127$ to $+127$ counts. If a patient experiences an acute involuntary muscle spasm or rapid saccadic head movement producing angular velocities exceeding $212^\circ/\mathrm{s}$, unconstrained integer arithmetic would cause signed 8-bit wraparound (overflowing from $+128$ to $-128$), resulting in chaotic pointer inversion. The clipping operator eliminates this risk, clamping rapid movements to full-scale deflection without numerical wraparound.
+The saturation operator $\mathrm{clip}(v, -127, 127) = \max(-127, \min(127, \mathrm{round}(v)))$ enforces strict conformance with standard Bluetooth HID mouse report descriptors. Standard HID mouse descriptors define relative movement coordinates as signed 8-bit two's complement integers ranging from $-127$ to $+127$ counts. If a patient experiences an acute involuntary muscle spasm or rapid saccadic head movement producing angular velocities exceeding $212^\circ/\mathrm{s}$, unconstrained integer arithmetic would cause signed 8-bit wraparound (overflowing from $+128$ to $-128$), resulting in chaotic pointer inversion. The clipping operator eliminates this risk, clamping rapid movements to full-scale deflection without numerical wraparound.
 
 ### C. Dwell Interaction Modeling and Progress Ring Geometry
 
