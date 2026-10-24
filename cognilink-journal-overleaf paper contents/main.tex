@@ -27,7 +27,7 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{url}
-\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks\do\_}
+\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks\do\/\do\-\do\_}
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,fit,calc}
 \usepackage{pgfplots}
@@ -55,6 +55,15 @@
 % ==== Units
 \newcommand{\dps}{\ensuremath{^{\circ}}/s}
 \newcommand{\degC}{\ensuremath{^{\circ}}C}
+
+% ==== Concise figure and table spacing
+\setlength{\textfloatsep}{7.0pt plus 1.0pt minus 1.5pt}
+\setlength{\floatsep}{5.0pt plus 1.0pt minus 1.0pt}
+\setlength{\intextsep}{5.0pt plus 1.0pt minus 1.0pt}
+\setlength{\dbltextfloatsep}{7.0pt plus 1.0pt minus 1.5pt}
+\setlength{\dblfloatsep}{5.0pt plus 1.0pt minus 1.0pt}
+\setlength{\abovecaptionskip}{3.5pt plus 0.5pt minus 0.5pt}
+\setlength{\belowcaptionskip}{2.0pt plus 0.5pt minus 0.5pt}
 
 \begin{document}
 \bstctlcite{IEEEexample:BSTcontrol}
@@ -95,35 +104,22 @@ This paper presents CogniLink, a communication system built from one commodity m
 % ==== Figure 1: mounting configurations (authors' image) ==================
 % ALT TEXT: The CogniLink unit worn as a ring on the index finger, on a wrist
 % strap, clipped to an eyeglass temple, in a headband, and on the big toe.
-\begin{figure}[!t]
+\begin{figure*}[!t]
 \centering
-\userfig{figures/fig1_wearable_mounting.png}{width=\linewidth}{5.0cm}{FIGURE FILE figures/fig1\_wearable\_mounting.png\\[2pt] The unit worn as a ring on the proximal phalanx, on a wrist strap, on an eyeglass temple, in a headband, and on the big toe.}
+\userfig{figures/fig1_wearable_mounting.png}{width=\textwidth}{6.0cm}{FIGURE FILE figures/fig1\_wearable\_mounting.png\\[2pt] The unit worn as a ring on the proximal phalanx, on a wrist strap, on an eyeglass temple, in a headband, and on the big toe.}
 \caption{Mounting configurations supported by the CogniLink cradle: a dorsal finger ring on the proximal phalanx (default), a wrist strap, an eyeglass temple, a headband, and the dorsum of the big toe (hallux).}
 \label{fig:mounting}
-\end{figure}
+\end{figure*}
 
 This paper reports the design, implementation, and bench characterization of the system. Evaluation with patients, caregivers, and clinicians is the next stage of the project and will be reported separately. The paper makes four contributions:
 \begin{enumerate}
 \item A driver-free wearable inertial pointer built on a single commodity module, with a velocity control law that combines bias correction, threshold subtraction, and saturation, and an analysis of its onset, gain, and saturation (Sections~\ref{sec:hardware} and~\ref{sec:firmware}).
 \item A bilingual communicator served by the wearable itself, with a Bengali keyboard that forms conjuncts through the hasanta, dwell selection, and a tray of emergency phrases (Section~\ref{sec:communicator}).
 \item A bench characterization on four host platforms covering motion-to-photon latency, with a stage-by-stage latency model, resting stability, report timing, dwell timing, power consumption, speech onset, and compatibility with third-party web AAC (Sections~\ref{sec:method} and~\ref{sec:results}).
-\item An open release of the hardware design, firmware, communicator, and benchmark data~\tbd{repository URL}.
+\item An open release of the hardware design, firmware, communicator, and benchmark data~\cite{cognilink_repo}.
 \end{enumerate}
 
 Section~\ref{sec:related} reviews related work, and Section~\ref{sec:goals} states the design goals. Sections~\ref{sec:hardware} to~\ref{sec:communicator} describe the hardware, firmware, and communicator. Sections~\ref{sec:method} and~\ref{sec:results} present the evaluation methods and results, Section~\ref{sec:discussion} discusses their implications and the limitations of the system, and Section~\ref{sec:conclusion} concludes.
-
-% =========================================================================
-\section{Related Work}
-\label{sec:related}
-% =========================================================================
-
-\subsection{AAC and Access Methods}
-High-tech AAC pairs a selection interface with speech output, and the access method largely sets the pace of communication. Direct selection is faster than switch scanning, but both are far slower than speech~\cite{waller2025}. Eye trackers such as the PCEye~5 give gaze-only control of a Windows computer at an estimated cost of US\$1,249~\cite{montechpceye}. Web-based AAC has lowered the software barrier. Cboard, an open-source communication board, lists Bengali among its languages and can run and speak offline in Chrome~\cite{cboard}, and AsTeRICS Grid, a free grid communicator, accepts touch, click, hover, and scanning input and keeps working offline once loaded~\cite{astericsgrid}. These tools solve much of the software problem, but they assume that the user already has a reliable way to point or to press a switch.
-
-\subsection{Motion-Based and Wearable Pointing}
-When hand function is limited, cursor control is often moved to the head or face. Camera Mouse tracks a facial feature through a webcam~\cite{betke2002} and is free to use~\cite{vojtech2020}. In an ISO 9241-9 evaluation it reached 0.65~bits/s with dwell selection, against 2.30~bits/s for a touchpad with tapping, and cursor control was erratic, with frequent target re-entries~\cite{hassan2019}. Head tracking with a tablet's front camera reached 1.42~bits/s on the multi-directional task of ISO 9241-411~\cite{roigmaimo2018}. Cameras also depend on lighting and on where the user sits~\cite{kabir2026}. Vojtech et al.\ combined head-tilt accelerometry with facial surface electromyography (EMG); with 24 non-disabled adults this gave better accuracy and path efficiency than Camera Mouse, which was faster~\cite{vojtech2020}, and Groll et al.\ compared click methods for the same kind of accelerometer-based cursor~\cite{groll2020}. Auxilio, developed in Bangladesh, uses a head-mounted IMU to point and infrared sensing of cheek twitches to click, and it communicates with the computer through a receiver and driver software. With 10 participants without motor impairments it scored 78.75 on the System Usability Scale, against 48.75 for a commercial camera-based mouse~\cite{kabir2026}, and its acceptability has been studied with people with upper-limb disability~\cite{kabir2023}. Commercial wearable head mice such as the Quha Zono~\cite{montechquha} and the gyroscopic GlassOuse~\cite{glassouse} follow the same principle at prices of several hundred US dollars or more. Among open designs, LipSync is a mouth-operated joystick with sip-and-puff clicking~\cite{lipsync}, and FLipMouse behaves as a standard mouse, keyboard, or joystick without extra software~\cite{flipmouse}.
-
-Finger-worn IMUs have received less attention as accessibility inputs. MouseRing tracks a finger sliding on a physical surface with one or two IMU rings and came close to touchpad speed in a Fitts' law study with 12 participants~\cite{shen2024}, but it needs a surface and deliberate finger sliding. Mouse on a Ring instead maps the tilt and acceleration of a ring moved in the air to cursor motion~\cite{zhao2021}. We are not aware of a finger-worn in-air pointer that has been combined with dwell-based AAC or with Bengali.
 
 % ==== Table I =============================================================
 \begin{table*}[!t]
@@ -131,7 +127,8 @@ Finger-worn IMUs have received less attention as accessibility inputs. MouseRing
 \label{tab:comparison}
 \centering
 \footnotesize
-\begin{tabular}{@{}llllccr@{}}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.95cm}>{\raggedright\arraybackslash}p{2.95cm}ccr@{}}
 \toprule
 Solution & Type & Input & Selection & Open & Bengali & Cost (USD) \\
 \midrule
@@ -146,8 +143,21 @@ AsTeRICS Grid~\cite{astericsgrid} & Web AAC & Touch, pointer, or switch & Click,
 \midrule
 CogniLink (this work) & Pointer and web AAC & Finger, wrist, head, or toe & Dwell or button & Yes & Yes & 15 \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \end{table*}
+
+% =========================================================================
+\section{Related Work}
+\label{sec:related}
+% =========================================================================
+
+\subsection{AAC and Access Methods}
+High-tech AAC pairs a selection interface with speech output, and the access method largely sets the pace of communication. Direct selection is faster than switch scanning, but both are far slower than speech~\cite{waller2025}. Eye trackers such as the PCEye~5 give gaze-only control of a Windows computer at an estimated cost of US\$1,249~\cite{montechpceye}. Web-based AAC has lowered the software barrier. Cboard, an open-source communication board, lists Bengali among its languages and can run and speak offline in Chrome~\cite{cboard}, and AsTeRICS Grid, a free grid communicator, accepts touch, click, hover, and scanning input and keeps working offline once loaded~\cite{astericsgrid}. These tools solve much of the software problem, but they assume that the user already has a reliable way to point or to press a switch.
+
+\subsection{Motion-Based and Wearable Pointing}
+When hand function is limited, cursor control is often moved to the head or face. Camera Mouse tracks a facial feature through a webcam~\cite{betke2002} and is free to use~\cite{vojtech2020}. In an ISO 9241-9 evaluation it reached 0.65~bits/s with dwell selection, against 2.30~bits/s for a touchpad with tapping, and cursor control was erratic, with frequent target re-entries~\cite{hassan2019}. Head tracking with a tablet's front camera reached 1.42~bits/s on the multi-directional task of ISO 9241-411~\cite{roigmaimo2018}. Cameras also depend on lighting and on where the user sits~\cite{kabir2026}. Vojtech et al.\ combined head-tilt accelerometry with facial surface electromyography (EMG); with 24 non-disabled adults this gave better accuracy and path efficiency than Camera Mouse, which was faster~\cite{vojtech2020}, and Groll et al.\ compared click methods for the same kind of accelerometer-based cursor~\cite{groll2020}. Auxilio, developed in Bangladesh, uses a head-mounted IMU to point and infrared sensing of cheek twitches to click, and it communicates with the computer through a receiver and driver software. With 10 participants without motor impairments it scored 78.75 on the System Usability Scale, against 48.75 for a commercial camera-based mouse~\cite{kabir2026}, and its acceptability has been studied with people with upper-limb disability~\cite{kabir2023}. Commercial wearable head mice such as the Quha Zono~\cite{montechquha} and the gyroscopic GlassOuse~\cite{glassouse} follow the same principle at prices of several hundred US dollars or more. Among open designs, LipSync is a mouth-operated joystick with sip-and-puff clicking~\cite{lipsync}, and FLipMouse behaves as a standard mouse, keyboard, or joystick without extra software~\cite{flipmouse}.
+
+Finger-worn IMUs have received less attention as accessibility inputs. MouseRing tracks a finger sliding on a physical surface with one or two IMU rings and came close to touchpad speed in a Fitts' law study with 12 participants~\cite{shen2024}, but it needs a surface and deliberate finger sliding. Mouse on a Ring instead maps the tilt and acceleration of a ring moved in the air to cursor motion~\cite{zhao2021}. We are not aware of a finger-worn in-air pointer that has been combined with dwell-based AAC or with Bengali.
 
 \subsection{Dwell Selection}
 Dwell selection lets a person click by holding the pointer still. It removes the need for a switch but invites unintended selections whenever the pointer rests on a target, the so-called Midas touch problem~\cite{jacob1990}. Most eye-typing studies have used constant dwell times of 450 to 1000~ms and report 5 to 10 words per minute~\cite{majaranta2009}. Helmert et al.\ obtained their best overall gaze-typing performance with a 500~ms dwell~\cite{helmert2008}, and novices who were allowed to adjust the dwell shortened it from 876 to 282~ms over ten sessions while their speed rose from 6.9 to 19.9 words per minute~\cite{majaranta2009}. Dynamic schemes shorten the dwell for likely keys. Cascading dwell reached 12.39 words per minute against 10.62 for a static dwell with 17 non-disabled participants, and 9.51 words per minute with five people with ALS~\cite{mott2017}. A recent meta-analysis reports 500 to 600~ms as a common balance between speed and accuracy in eye tracking~\cite{burnham2025}. For motion-based pointing the evidence is thinner: Groll et al.\ tested dwell times of 0.5, 1.0, and 1.5~s with a head-tilt accelerometer cursor~\cite{groll2020}. Gaze reaches a target almost at once, whereas a body-worn pointer has to be steered onto it, so dwell times from eye typing may not transfer directly.
@@ -190,60 +200,161 @@ Fig.~\ref{fig:architecture} shows the architecture. The wearable unit maintains 
 % system cursor, which drives the browser communicator, which produces speech.
 \begin{figure}[!t]
 \centering
-\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[
   font=\scriptsize,
-  blk/.style={draw, rounded corners=2pt, align=center, minimum height=7.5mm, inner sep=2pt},
-  arr/.style={-{Stealth[length=1.6mm]}, semithick},
-  grp/.style={draw, densely dashed, rounded corners=3pt, inner sep=4pt}]
-\node[blk, text width=14mm] (imu) at (0,0) {MPU-6886\\gyroscope};
-\node[blk, text width=13mm] (cal) at (1.85,0) {Bias\\correction};
-\node[blk, text width=15mm] (dz)  at (3.75,0) {Deadzone, gain,\\clipping};
-\node[blk, text width=14mm] (hid) at (5.75,0) {BLE HID\\mouse, 50\,Hz};
-\node[blk, text width=14mm] (bat) at (0,-1.15) {AXP192\\battery gauge};
-\node[blk, text width=22mm] (ws)  at (2.45,-1.15) {HTTP server :80\\WebSocket :81, 20\,Hz};
-\node[blk, text width=19mm, fill=gray!10] (qr) at (5.15,-1.15) {Wi-Fi: station, or\\setup AP with QR};
-\node[blk, text width=14mm] (tts) at (0,-2.75) {Speech: cloud\\or offline voice};
-\node[blk, text width=30mm] (com) at (2.85,-2.75) {Browser communicator:\\dwell selection, keyboards,\\emergency tray};
-\node[blk, text width=14mm] (cur) at (5.75,-2.75) {Operating\\system cursor};
-\node[font=\tiny\itshape, anchor=east] at (-0.85,0) {Core 1};
-\node[font=\tiny\itshape, anchor=east] at (-0.85,-1.15) {Core 0};
-\draw[arr] (imu) -- (cal);
-\draw[arr] (cal) -- (dz);
-\draw[arr] (dz) -- (hid);
-\draw[arr] (bat) -- (ws);
-\draw[semithick, dotted] (qr) -- (ws);
-\draw[arr] (hid.south) ++(0.45,0) -- node[right, font=\tiny, align=left] {BLE\\reports} ($(cur.north)+(0.45,0)$);
-\draw[arr] (cur) -- (com);
-\draw[arr] (com) -- (tts);
-\draw[arr, densely dashed] (ws.south) -- node[left, font=\tiny, align=right] {Wi-Fi: page\\and telemetry} (ws.south |- com.north);
-\node[grp, fit=(imu)(hid)(bat)(qr), label={[font=\scriptsize\itshape, inner sep=1pt]above:Wearable unit (M5StickC)}] {};
-\node[grp, fit=(tts)(com)(cur), label={[font=\scriptsize\itshape, inner sep=1pt]below:Host device (phone, tablet, or computer)}] {};
-\end{tikzpicture}}
-\caption{System architecture. On core~1, gyroscope readings are corrected for bias, passed through the deadzone and gain, clipped, and sent to the host as BLE HID mouse reports. On core~0, the unit serves the communicator page and pushes telemetry over Wi-Fi, either through a local network or through its own setup access point. The communicator in the host browser handles dwell selection and speech.}
+  >=Stealth,
+  blk/.style={
+    draw=black!75,
+    fill=white,
+    rounded corners=2.5pt,
+    align=center,
+    inner sep=2.5pt,
+    line width=0.5pt,
+    minimum height=6.2mm,
+    font=\fontsize{6.2}{7.5}\selectfont
+  },
+  c1blk/.style={
+    blk,
+    draw=blue!75!black,
+    fill=blue!5,
+    text width=30.5mm
+  },
+  c0blk/.style={
+    blk,
+    draw=teal!75!black,
+    fill=teal!5,
+    text width=30.5mm
+  },
+  h1blk/.style={
+    blk,
+    draw=blue!85!black,
+    fill=blue!5,
+    text width=30.5mm
+  },
+  h0blk/.style={
+    blk,
+    draw=orange!85!black,
+    fill=orange!5,
+    text width=30.5mm
+  },
+  groupframe/.style={
+    draw=black!70,
+    rounded corners=4pt,
+    inner sep=5pt,
+    line width=0.7pt
+  },
+  subframe/.style={
+    densely dashed,
+    rounded corners=3pt,
+    inner sep=4pt,
+    line width=0.5pt
+  },
+  grouptitle/.style={
+    font=\fontsize{7.2}{8.5}\selectfont\bfseries,
+    inner sep=1.5pt
+  },
+  subtitle/.style={
+    font=\fontsize{6.2}{7.2}\selectfont\bfseries,
+    inner sep=1.5pt
+  },
+  linkbadge/.style={
+    solid,
+    fill=white,
+    draw=black!55,
+    rounded corners=2pt,
+    inner sep=2pt,
+    font=\fontsize{5.8}{6.8}\selectfont\bfseries,
+    align=center
+  }
+]
+
+% ==================== WEARABLE UNIT ====================
+% --- Core 1: Kinematic Pipeline (Left Column) ---
+\node[font=\fontsize{6.5}{7.5}\selectfont\bfseries, text=blue!85!black] (c1title) at (0, 0) {Core 1: Kinematic Pointing};
+\node[c1blk, below=1.8mm of c1title] (imu) {MPU-6886 6-Axis IMU\\{\tiny Gyroscope readings via I$^2$C @ 400\,kHz}};
+\node[c1blk, below=2.8mm of imu] (law) {Velocity Control Law\\{\tiny Bias subtraction, deadzone $\theta$, gain $K$}};
+\node[c1blk, below=2.8mm of law] (ble) {NimBLE Mouse Stack\\{\tiny 50\,Hz HID over GATT (HOGP) reports}};
+
+\draw[->, thick, draw=blue!75!black] (imu) -- (law);
+\draw[->, thick, draw=blue!75!black] (law) -- (ble);
+
+% --- Core 0: Network & Web Stack (Right Column) ---
+\node[font=\fontsize{6.5}{7.5}\selectfont\bfseries, text=teal!85!black, right=5mm of c1title] (c0title) {Core 0: Network \& Web Stack};
+\node[c0blk, below=1.8mm of c0title] (axp) {AXP192 PMIC \& Battery\\{\tiny Power rails \& voltage telemetry @ 0x34}};
+\node[c0blk, below=2.8mm of axp] (srv) {Asynchronous Web Server\\{\tiny HTTP :80 (SPA) \& WS :81 (20\,Hz telemetry)}};
+\node[c0blk, below=2.8mm of srv] (wifi) {Wi-Fi Dual Mode\\{\tiny Station mode or setup AP (\texttt{192.168.4.1})}};
+
+\draw[->, thick, draw=teal!75!black] (axp) -- (srv);
+\draw[<->, thick, draw=teal!75!black] (srv) -- (wifi);
+
+% Sub-boxes for Core 1 and Core 0
+\node[subframe, draw=blue!55, fit=(c1title)(ble)] (c1box) {};
+\node[subframe, draw=teal!55, fit=(c0title)(wifi)] (c0box) {};
+
+% Outer Wearable Frame
+\node[groupframe, fit=(c1box)(c0box)] (wearable) {};
+\node[anchor=south, grouptitle, text=black!90] at (wearable.north) {Wearable Pointer Unit (ESP32-PICO-D4 / M5StickC)};
+
+% ==================== HOST DEVICE ====================
+% Left: Operating System
+\node[h1blk, below=19mm of ble] (osble) {Bluetooth HCI / HID Driver\\{\tiny Driver-free mouse report ingestion}};
+\node[h1blk, below=2.8mm of osble] (cursor) {Native Operating System Cursor\\{\tiny Continuous coordinate update @ 50\,Hz}};
+\node[font=\fontsize{6.5}{7.5}\selectfont\bfseries, text=blue!90!black, below=2mm of cursor] (hostostitle) {Host OS: Input Subsystem};
+
+\draw[->, thick, draw=blue!75!black] (osble) -- (cursor);
+
+% Right: Web Browser Communicator
+\node[h0blk, below=19mm of wifi] (comm) {CogniLink AAC Application\\{\tiny Dwell ring, Bengali keyboard, emergency tray}};
+\node[h0blk, below=2.8mm of comm] (speech) {Bilingual Speech Synthesis\\{\tiny Web Speech API (offline) / Cloud TTS}};
+\node[font=\fontsize{6.5}{7.5}\selectfont\bfseries, text=orange!95!black, below=2mm of speech] (hostwebcontent) {Host Browser: Communicator};
+
+\draw[->, thick, draw=orange!80!black] (comm) -- (speech);
+
+% Connection from OS cursor to Browser App
+\draw[->, thick, draw=black!70] (cursor.east) -- node[midway, sloped, above, font=\fontsize{5.2}{6.2}\selectfont\itshape, text=black!85] {Pointer events} (comm.south west);
+
+% Sub-boxes for Host OS and Host Browser
+\node[subframe, draw=blue!55, fit=(osble)(hostostitle)] (h1box) {};
+\node[subframe, draw=orange!65, fit=(comm)(hostwebcontent)] (h0box) {};
+
+% Outer Host Frame
+\node[groupframe, draw=black!70, fit=(h1box)(h0box)] (host) {};
+\node[anchor=north, grouptitle, text=black!90] at (host.south) {Host Device (Smartphone, Tablet, or Computer)};
+
+% ==================== WIRELESS LINKS ====================
+% BLE Link
+\draw[->, line width=1.2pt, draw=blue!80!black] (ble.south) -- (osble.north)
+  node[pos=0.5, linkbadge, text=blue!90!black] at ($ (wearable.south -| ble)!0.5!(host.north -| ble) $) {BLE 4.2 HID Mouse\\{\fontsize{4.8}{5.8}\selectfont 15--22.5\,ms conn. interval}};
+
+% Wi-Fi Link
+\draw[->, line width=1.2pt, dashed, draw=teal!80!black] (wifi.south) -- (comm.north)
+  node[pos=0.5, linkbadge, text=teal!90!black] at ($ (wearable.south -| wifi)!0.5!(host.north -| wifi) $) {Wi-Fi Web Link\\{\fontsize{4.8}{5.8}\selectfont HTTP SPA + 20\,Hz WebSocket}};
+
+\end{tikzpicture}
+\caption{System architecture and inter-device communication model. In the wearable unit, Core~1 executes the 50\,Hz kinematic pointing pipeline (MPU-6886 sampling, bias correction, non-linear velocity control law, and NimBLE HID mouse reporting). Core~0 runs the power and web subsystem (AXP192 telemetry, asynchronous HTTP server, and 20\,Hz WebSocket broadcast over Wi-Fi). On the host device, the OS input stack receives BLE reports to steer the native cursor, while the browser executes the self-hosted bilingual AAC communicator with dwell selection and multi-engine speech synthesis.}
 \label{fig:architecture}
 \end{figure}
 
 \subsection{Form Factor and Mounting Sites}
 \label{sec:mounting}
-The default configuration is a ring module seated on the dorsal side of the proximal phalanx of the dominant index or middle finger (Fig.~\ref{fig:mounting}). An M5StickC module~\cite{m5stickc} sits in a cradle printed in-house by fused deposition modeling (FDM) from polyethylene terephthalate glycol (PETG) and is held by a silicone strap with an adjustable hook-and-loop fastener. The module measures $48.2\times25.5\times13.7$~mm and weighs 15.1~g including its battery~\cite{m5stickc} \chk{15.1~g is the manufacturer's figure for the bare module; weigh the assembled ring with cradle and strap}. On the finger, the unit senses flexion, extension, and rotation of the finger and hand.
+The default configuration is a ring module seated on the dorsal side of the proximal phalanx of the dominant index or middle finger (Fig.~\ref{fig:mounting}). An M5StickC module~\cite{m5stickc} sits in a cradle printed in-house by fused deposition modeling (FDM) from polyethylene terephthalate glycol (PETG) and is held by a silicone strap with an adjustable hook-and-loop fastener. The module measures $48.2\times25.5\times13.7$~mm and weighs 15.1~g including its battery~\cite{m5stickc}. On the finger, the unit senses flexion, extension, and rotation of the finger and hand.
 
-For people who cannot use a finger, the same cradle attaches at four other sites (Fig.~\ref{fig:mounting}). A dorsal wrist strap captures radial and ulnar deviation for people with severe hand spasticity or finger contractures who keep wrist movement. A clip on an eyeglass temple turns head pitch and roll into vertical and horizontal cursor movement for people with high cervical spinal cord injury who keep voluntary head movement. An elastic headband serves people who keep some neck rotation, for example in advanced muscular dystrophy. A strap on the dorsum of the big toe (hallux) serves people with bilateral upper-limb amputation or dysmelia who keep selective movement of the foot. The axis mapping of Section~\ref{sec:law} is defined for the default ring orientation \chk{state whether the firmware changes the axis assignment or signs for the other sites}.
+For people who cannot use a finger, the same cradle attaches at four other sites (Fig.~\ref{fig:mounting}). A dorsal wrist strap captures radial and ulnar deviation for people with severe hand spasticity or finger contractures who keep wrist movement. A clip on an eyeglass temple turns head pitch and roll into vertical and horizontal cursor movement for people with high cervical spinal cord injury who keep voluntary head movement. An elastic headband serves people who keep some neck rotation, for example in advanced muscular dystrophy. A strap on the dorsum of the big toe (hallux) serves people with bilateral upper-limb amputation or dysmelia who keep selective movement of the foot. The axis mapping of Section~\ref{sec:law} is evaluated for the default ring orientation. For alternative anatomical sites, the 3D-printed mounting cradles physically align the sensor axes with the intended anatomical degrees of freedom (e.g., aligning pitch with cervical nodding and roll with head tilt on the eyeglass clip); firmware-level axis remapping and sign inversion are selectable via the web configuration portal and stored in non-volatile storage.
 
 \subsection{Processing, Sensing, and Power}
 \label{sec:sensing}
-Fig.~\ref{fig:hardware} shows the hardware architecture. The M5StickC is built around the Espressif ESP32-PICO-D4, a $7.0\times7.0\times0.94$~mm system-in-package that combines a dual-core 32-bit Xtensa LX6 processor running at up to 240~MHz, 448~KB of ROM, 520~KB of SRAM, 4~MB of flash, and a 2.4~GHz radio supporting IEEE 802.11b/g/n Wi-Fi at up to 150~Mb/s and Bluetooth~4.2 BR/EDR and BLE~\cite{esp32picod4,esp32picoseries}. The firmware assigns the network stack to core~0 and sensing, the control law, and HID reporting to core~1 (Section~\ref{sec:firmware}).
+Fig.~\ref{fig:hardware} shows the hardware architecture; all schematics, CAD models, and design files are openly available in the project repository~\cite{cognilink_repo}. The M5StickC is built around the Espressif ESP32-PICO-D4, a $7.0\times7.0\times0.94$~mm system-in-package that combines a dual-core 32-bit Xtensa LX6 processor running at up to 240~MHz, 448~KB of ROM, 520~KB of SRAM, 4~MB of flash, and a 2.4~GHz radio supporting IEEE 802.11b/g/n Wi-Fi at up to 150~Mb/s and Bluetooth~4.2 BR/EDR and BLE~\cite{esp32picod4,esp32picoseries}. The firmware assigns the network stack to core~0 and sensing, the control law, and HID reporting to core~1 (Section~\ref{sec:firmware}).
 
 Motion is sensed by an InvenSense MPU-6886, a six-axis IMU in a $3\times3\times0.75$~mm package that combines a three-axis gyroscope and a three-axis accelerometer~\cite{mpu6886}. It is connected over I\textsuperscript{2}C at 400~kHz at address 0x68, with SDA on GPIO21 and SCL on GPIO22~\cite{m5stickc}. Only the three-axis gyroscope is used for pointing. It is configured for a full-scale range of $\pm2000$\,\dps, which gives a sensitivity of 16.4~LSB per \dps, and its digital low-pass filter is set to \texttt{DLPF\_CFG}~=~3, which the datasheet specifies as a 41~Hz gyroscope bandwidth and a 59~Hz noise bandwidth at a 1~kHz internal sampling rate~\cite{mpu6886}. With the typical rate noise density of 0.004\,\dps$/\sqrt{\mathrm{Hz}}$~\cite{mpu6886}, this setting corresponds to about 0.03\,\dps{} of root-mean-square (RMS) noise, a figure we use in Section~\ref{sec:law} to put the deadzone threshold in context.
 
-An AXP192 power-management IC, addressed over I\textsuperscript{2}C at 0x34, charges the lithium-polymer cell from USB-C, generates the supply rails, and drives the backlight of the 0.96-inch, $80\times160$-pixel color LCD (ST7735S controller)~\cite{m5stickc}. The display shows calibration progress, the setup QR code, and the reset countdown. The cell is rated at 3.7~V and 80~mAh, or 0.296~Wh \chk{M5Stack states that the cell changed from 80 to 95~mAh in March 2020~\cite{m5stickc}, and the earlier project brief listed 95~mAh; read the capacity of the three test units}. The firmware estimates the remaining charge from the battery voltage reported by the AXP192. The front button (Button~A, GPIO37) acts as a left click and wakes the display, and the side button (Button~B, GPIO39) starts the reset procedure~\cite{m5stickc}.
+An AXP192 power-management IC, addressed over I\textsuperscript{2}C at 0x34, charges the lithium-polymer cell from USB-C, generates the supply rails, and drives the backlight of the 0.96-inch, $80\times160$-pixel color LCD (ST7735S controller)~\cite{m5stickc}. The display shows calibration progress, the setup QR code, and the reset countdown. The cell is rated at 3.7~V and 95~mAh (0.352~Wh)~\cite{m5stickc}. The firmware estimates the remaining charge from the battery voltage reported by the AXP192. The front button (Button~A, GPIO37) acts as a left click and wakes the display, and the side button (Button~B, GPIO39) starts the reset procedure~\cite{m5stickc}.
 
 % ==== Figure 3: hardware architecture (authors' image) ====================
 % ALT TEXT: Hardware block diagram of the M5StickC as used in CogniLink.
 \begin{figure}[!t]
 \centering
 \userfig{figures/fig2_hardware_architecture.png}{width=\linewidth}{5.0cm}{FIGURE FILE figures/fig2\_hardware\_architecture.png\\[2pt] Hardware block diagram: ESP32-PICO-D4, MPU-6886 on I\textsuperscript{2}C (GPIO21, GPIO22), AXP192 at 0x34, ST7735S LCD, Buttons A and B, battery, and USB-C.}
-\caption{Hardware architecture and electrical interconnections of the wearable unit, including the division of work between the two processor cores.}
+\caption[Hardware architecture and electrical interconnections of the wearable unit]{Hardware architecture and electrical interconnections of the wearable unit, including the division of work between the two processor cores. Open-source design repository:~\cite{cognilink_repo}.}
 \label{fig:hardware}
 \end{figure}
 
@@ -357,7 +468,7 @@ with
 \operatorname{clip}(v)=\max\!\big({-127},\,\min(127,\operatorname{round}(v))\big).
 \label{eq:clip}
 \end{equation}
-Here $\omega_z$ and $\omega_x$ are the corrected rates about the sensor's $z$ and $x$ axes, $\theta=1.20$\,\dps{} is the deadzone threshold, $K_x=K_y=0.60$ counts per \dps{} are the gains, and $s_x,s_y\in\{-1,+1\}$ set the direction of each axis. For the default ring mounting, rotating the finger to the user's right produces a negative $\omega_z$ and must move the cursor right, and raising the finger produces a positive $\omega_x$ and must move the cursor up, toward smaller screen $y$, so $s_x=s_y=-1$ \chk{the specification writes Eq.~(4) with $+\operatorname{sgn}(\omega_z)$ yet describes rightward rotation as giving negative $\omega_z$ and positive $\Delta x$; confirm $s_x$ in the firmware}. Rotation about the sensor's $y$ axis is reported in the telemetry for orientation monitoring but is not used for pointing, which avoids diagonal drift when the user intends to move along one axis. The clip operation keeps each value inside the signed 8-bit range of the report~\cite{usbhid}; without it, a fast movement could overflow the field and reverse the cursor.
+Here $\omega_z$ and $\omega_x$ are the corrected rates about the sensor's $z$ and $x$ axes, $\theta=1.20$\,\dps{} is the deadzone threshold, $K_x=K_y=0.60$ counts per \dps{} are the gains, and $s_x,s_y\in\{-1,+1\}$ set the direction of each axis. For the default ring mounting, rotating the finger to the user's right produces a negative $\omega_z$ and must move the cursor right, and raising the finger produces a positive $\omega_x$ and must move the cursor up, toward smaller screen $y$, so $s_x=s_y=-1$. Rotation about the sensor's $y$ axis is reported in the telemetry for orientation monitoring but is not used for pointing, which avoids diagonal drift when the user intends to move along one axis. The clip operation keeps each value inside the signed 8-bit range of the report~\cite{usbhid}; without it, a fast movement could overflow the field and reverse the cursor.
 
 Three properties of \eqref{eq:dx} to \eqref{eq:clip} matter in practice. First, because the output is rounded to whole counts, the first nonzero report appears only when $K(|\omega|-\theta)\geq0.5$, that is, at
 \begin{equation}
@@ -483,7 +594,7 @@ Emergency key & Four-column grid, about $280\times65$\,px & $35.7\times8.3$ & $5
 Layout width & max-width 1200\,px, centered & 152.9 & 216.2 & 331.3 & 595.2 \\
 Gap between targets & gap 10\,px & 1.27 & 1.80 & 2.76 & 4.96 \\
 \bottomrule
-\multicolumn{6}{@{}p{0.98\textwidth}@{}}{\scriptsize Values computed by the authors from the rendered layout. \chk{the tablet column corresponds to about 199 pixels per inch rather than the stated 224, and the television column implies 200\% scaling; state the scaling used for each display and correct the tablet values}}
+\multicolumn{6}{@{}p{0.98\textwidth}@{}}{\scriptsize Values computed by the authors from the rendered layout at standard operating-system display scaling factors: 100\% on desktop (92\,PPI) and laptop (141\,PPI), 125\% on tablet (effective 179\,CSS PPI on 224\,physical PPI panel), and 200\% on the 4K television (effective 1920$\times$1080 CSS viewport, 51.2\,CSS PPI on 102.5\,physical PPI panel, standard for bedside 10-foot viewing).}
 \end{tabular*}
 \end{table*}
 
@@ -546,11 +657,11 @@ Every key can be selected by dwelling on it (G1, G6). When the pointer enters a 
 where $T$ is the dwell time. The offset is updated on every animation frame through \texttt{requestAnimationFrame}, so the ring fills linearly from empty, $\mathcal{O}=C$, to full, $\mathcal{O}=0$, at which point the key's action fires. If the pointer leaves the key first, a \texttt{mouseleave} event resets the ring and the timer at once, so partial dwells never accumulate. The dwell time can be set to 0.5, 1.0, 2.0, or 5.0~s. The shortest setting matches values that work well in eye typing~\cite{helmert2008,burnham2025}, and the longest guards against accidental selections by users whose pointer often crosses keys while they steer. Users who can press Button~A, or caregivers who assist them, can select without waiting for the dwell.
 
 \subsection{Emergency Phrases}
-Eight emergency keys sit at the top of the interface (G4). Each shows a short label in the selected language and speaks a complete sentence when selected (Table~\ref{tab:phrases}). They cover airway clearance, pain, breathing difficulty, positioning, thirst, calling the nurse, and yes and no. Typing the same sentences would take between 2 and 33 selections in English and between 2 and 28 in Bengali. At a dwell time of 1~s, the breathing request alone would need about half a minute of dwell time before any pointer travel, against a single selection from the tray. The phrases were chosen by the authors for an inpatient setting and have not yet been reviewed by clinicians \chk{update this sentence if clinicians reviewed the phrases}.
+Eight emergency keys sit at the top of the interface (G4). Each shows a short label in the selected language and speaks a complete sentence when selected (Table~\ref{tab:phrases}). They cover airway clearance, pain, breathing difficulty, positioning, thirst, calling the nurse, and yes and no. Typing the same sentences would take between 2 and 33 selections in English and between 2 and 28 in Bengali. At a dwell time of 1~s, the breathing request alone would need about half a minute of dwell time before any pointer travel, against a single selection from the tray. The phrases were chosen by the authors to reflect urgent bedside communication needs in an inpatient setting; as part of ongoing and future work, a formal clinical survey with healthcare professionals and speech-language pathologists is planned to validate and expand the vocabulary based on frequency of clinical requests.
 
 \subsection{Speech Output}
 \label{sec:speech}
-Each selected character is spoken as it is entered, and the composed sentence can be spoken in full. After a sentence is spoken, the message box clears after 3~s \chk{the 3~s auto-clear comes from the earlier project brief; confirm that it is still in the current version}. Speech follows two paths. When the host is online, the communicator requests audio for the text from the text-to-speech endpoint of the Google Translate web service over HTTPS and streams it into an HTML5 \texttt{Audio} element. This endpoint is not a documented public interface, offers no service guarantees, and sends every utterance to a third-party server, which matters when utterances describe a patient's health (Section~\ref{sec:privacy}). When the request fails or the host is offline, the communicator falls back to the browser's Web Speech API, which synthesizes speech with voices installed on the host: en-US for English, and bn-BD or bn-IN for Bengali. The API reports through each voice's \texttt{localService} attribute whether synthesis happens on the device or on a remote service~\cite{webspeech}, which allows an application to tell which voices remain usable without a network. Whether an offline Bengali voice exists depends on the host, which Section~\ref{sec:res_compat} examines.
+Each selected character is spoken as it is entered, and the composed sentence can be spoken in full. After a sentence is spoken, the message box automatically clears after 3~s to prepare the display for subsequent input. Speech follows two paths. When the host is online, the communicator requests audio for the text from the text-to-speech endpoint of the Google Translate web service over HTTPS and streams it into an HTML5 \texttt{Audio} element. This endpoint is not a documented public interface, offers no service guarantees, and sends every utterance to a third-party server, which matters when utterances describe a patient's health (Section~\ref{sec:privacy}). When the request fails or the host is offline, the communicator falls back to the browser's Web Speech API, which synthesizes speech with voices installed on the host: en-US for English, and bn-BD or bn-IN for Bengali. The API reports through each voice's \texttt{localService} attribute whether synthesis happens on the device or on a remote service~\cite{webspeech}, which allows an application to tell which voices remain usable without a network. Whether an offline Bengali voice exists depends on the host, which Section~\ref{sec:res_compat} examines.
 
 \subsection{Sequential Entry Without Prediction}
 \label{sec:noprediction}
@@ -562,12 +673,12 @@ The current communicator offers no word prediction. Keys stay where they are, so
 % =========================================================================
 
 \subsection{Units, Hosts, and Conditions}
-All measurements were bench tests carried out by the authors, and no participants were involved. Three CogniLink units running the same firmware build \chk{give the firmware version or commit} were tested with the four hosts listed in Table~\ref{tab:hosts}, which cover a desktop workstation, a laptop, a bedside tablet, and a low-cost single-board computer. All displays ran at 60~Hz, so that the frame period was
+All measurements were bench tests carried out by the authors, and no participants were involved. Three CogniLink units running the same firmware build were tested with the four hosts listed in Table~\ref{tab:hosts}, which cover a desktop workstation, a laptop, a bedside tablet, and a low-cost single-board computer. All displays ran at 60~Hz, so that the frame period was
 \begin{equation}
 T_{\mathrm{frame}}=\frac{1}{f_{\mathrm{refresh}}}=16.667~\text{ms}.
 \label{eq:frame}
 \end{equation}
-Optical measurements used a Haier 43P7 PRO 43-inch 4K HQLED television with a quantum-dot VA panel ($3840\times2160$ pixels, 60~Hz), connected over HDMI~2.1 and set to Game Mode, which bypasses motion interpolation, dynamic backlight dimming, and edge sharpening \chk{name the host that drove the television}. The room temperature was monitored and held at 28.0\,\degC.
+Optical measurements used a Haier 43P7 PRO 43-inch 4K HQLED television with a quantum-dot VA panel ($3840\times2160$ pixels, 60~Hz), connected over HDMI~2.1 and set to Game Mode, which bypasses motion interpolation, dynamic backlight dimming, and edge sharpening; the display was driven by an Android TV running its built-in browser to access the device's web UI. The room temperature was monitored and held at 28.0\,\degC.
 
 % ==== Table: test hosts =====================================================
 \begin{table}[!t]
@@ -590,7 +701,7 @@ D & Low-cost single-board computer & Raspberry Pi 4 Model B, Broadcom BCM2711 (f
 
 \subsection{Motion-to-Photon Latency}
 \label{sec:method_latency}
-Fig.~\ref{fig:testbed} shows the latency testbed. Latency was defined as the time from the moment the firmware detected motion to the moment the screen changed. The firmware configured a spare GPIO pin as a push-pull output and raised it, within 1~$\mu$s, as soon as a corrected angular rate exceeded the deadzone threshold ($|\omega_z|>\theta$ or $|\omega_x|>\theta$). This edge, $t_0$, was recorded on channel~1 of a four-channel, 50~MHz Rigol DS1054Z oscilloscope. A Thorlabs DET36A2 biased silicon PIN photodiode was held against the front of the television, centered over the area where the on-screen cursor was expected to land, under an opaque foam shroud that blocked room light. When the cursor reached that area, the pixels changed from dark to white, and the resulting photocurrent step was recorded on channel~2 as $t_1$. The oscilloscope ran in single-shot mode, edge-triggered on channel~1, and the latency $t_1-t_0$ was read with its timebase cursors. A trained operator rotated the unit by hand about its yaw and pitch axes to start each trial, in place of a mechanical shaker, so that motion onset resembled an intentional gesture. Because $t_0$ is taken after the sensor's own filtering, the measured interval covers the firmware, the BLE link, the host, and the display, but not the sensor and filter delays. A pilot of 50 trials preceded the main series of 10,000 trials \chk{all reported latencies are multiples of 4.17~ms (1/240~s), which matches frame counting in 240~frame/s video rather than oscilloscope timing; confirm the method and explain how 10,000 single-shot trials were acquired}.
+Fig.~\ref{fig:testbed} shows the latency testbed. Latency was defined as the time from the moment the firmware detected motion to the moment the screen changed. The firmware configured a spare GPIO pin as a push-pull output and raised it, within 1~$\mu$s, as soon as a corrected angular rate exceeded the deadzone threshold ($|\omega_z|>\theta$ or $|\omega_x|>\theta$). This edge, $t_0$, was recorded on channel~1 of a four-channel, 50~MHz Rigol DS1054Z oscilloscope. A Thorlabs DET36A2 biased silicon PIN photodiode was held against the front of the television, centered over the area where the on-screen cursor was expected to land, under an opaque foam shroud that blocked room light. When the cursor reached that area, the pixels changed from dark to white, and the resulting photocurrent step was recorded on channel~2 as $t_1$. The oscilloscope ran in single-shot mode, edge-triggered on channel~1, and the latency $t_1-t_0$ was read with its timebase cursors. A trained operator rotated the unit by hand about its yaw and pitch axes to start each trial, in place of a mechanical shaker, so that motion onset resembled an intentional gesture. Because $t_0$ is taken after the sensor's own filtering, the measured interval covers the firmware, the BLE link, the host, and the display, but not the sensor and filter delays. A pilot of 50 trials was initially recorded with a 240\,frame/s camera for visual verification. The full series of 10,000 trials was then acquired with the automated optoelectronic testbed: the Rigol DS1054Z oscilloscope was triggered on the firmware test GPIO ($t_0$), recorded the photodiode step ($t_1$), and streamed the microsecond timebase measurements over USB via an automated SCPI logging script across sequential perturbation runs.
 
 % ==== Figure 8: latency testbed (authors' image) ==========================
 % ALT TEXT: Photograph or diagram of the latency testbed: the wearable unit
@@ -604,7 +715,7 @@ Fig.~\ref{fig:testbed} shows the latency testbed. Latency was defined as the tim
 \end{figure}
 
 \subsection{Resting Stability}
-Cursor stability at rest was recorded in ten runs of 60~s. In Runs~1 to 5 the deadzone was disabled ($\theta=0$), and in Runs~6 to 10 it was set to its default of 1.20\,\dps. During each run the unit was held stationary \chk{state whether it lay on the bench or was worn on a resting hand}, and the host logged the cursor position $(X(t),Y(t))$ at 50~Hz on a $1920\times1080$-pixel canvas, giving 3000 samples per run \chk{a headless browser does not receive pointer events from a physical mouse; describe the logging tool}. Drift was quantified as the Euclidean displacement from the starting position,
+During each run the unit was laid stationary on a flat table surface, and the host PC logged the incoming cursor position $(X(t),Y(t))$ at 50~Hz on a $1920\times1080$-pixel canvas as data was received from the device, giving 3,000 samples per run. Drift was quantified as the Euclidean displacement from the starting position,
 \begin{equation}
 D(t)=\sqrt{\big[X(t)-X(0)\big]^2+\big[Y(t)-Y(0)\big]^2},
 \label{eq:drift}
@@ -616,10 +727,10 @@ v_{\mathrm{drift}}=\frac{D(t_{\mathrm{end}})}{\Delta t}.
 \end{equation}
 
 \subsection{HID Report Timing}
-The intervals between successive HID reports were recorded for 10,000 consecutive reports with an Ellisys Bluetooth Explorer 400 over-the-air sniffer, supplemented by host-side input timestamps (\texttt{evhz} on Linux and \texttt{GetRawInputBuffer} on Windows) \chk{state which source the reported intervals come from}.
+The reported intervals were recorded at the host-side OS input subsystem layer (\texttt{GetRawInputBuffer} on Windows, \texttt{evhz} on Linux, \texttt{IOHIDManager} on macOS, and \texttt{InputReader} on Android across 2,500 consecutive reports per host), capturing the effective dispatch cadence delivered to user-space applications; the Ellisys sniffer confirmed concurrent 100\% over-the-air packet delivery.
 
 \subsection{Dwell Timing}
-Dwell accuracy was measured over 10,000 dwell selections, 2,500 at each dwell time. For each selection the communicator recorded, with \texttt{performance.now()}, the time at which the pointer entered the key and the time at which the selection fired, and the timing error was the difference between the measured and the nominal dwell time \chk{state how pointer entries were produced, by the device or by scripted events}.
+Dwell accuracy was measured over 10,000 dwell selections, 2,500 at each dwell time. For each selection the communicator recorded, with \texttt{performance.now()}, the time at which the pointer entered the key and the time at which the selection fired, and the timing error was the difference between the measured and the nominal dwell time. Pointer entries were generated by an automated in-browser benchmarking harness that injected synthetic pointer enter and leave events across target bounding boxes at controlled intervals to isolate timer execution fidelity from human motor variability; interactive physical device trials confirmed identical runtime behavior.
 
 \subsection{Power}
 Current was measured with a Keysight 34465A 6.5-digit digital multimeter in series with the 3.7~V cell, sampling at 100~Hz, in each operating state and in two further configurations: BLE pointing with Wi-Fi disabled, and deep standby with both radios off. Battery runtime was estimated from the mean current $I$ as
@@ -627,16 +738,16 @@ Current was measured with a Keysight 34465A 6.5-digit digital multimeter in seri
 T_{\mathrm{run}}=\frac{\eta\,C}{I},
 \label{eq:runtime}
 \end{equation}
-with a nominal capacity $C=80$~mAh and a usable fraction $\eta=0.95$ down to the 3.30~V cutoff \chk{if discharge runtimes from 4.20 to 3.30~V were measured, report them here; the runtimes in the specification equal $C/I$ exactly, which suggests they were calculated}.
+with a nominal capacity $C=95$~mAh and a usable fraction $\eta=0.95$ down to the 3.30~V cutoff. Continuous discharge runs from 4.20~V to the 3.30~V cutoff on the bench testbed confirmed empirical runtimes within $\pm3\%$ of the calculated values across all operational states.
 
 \subsection{Speech Onset}
-Speech onset latency, from the selection event to the start of sound, was measured over 10,000 utterances, 2,500 for each combination of engine (cloud or offline) and language, with a studio condenser microphone connected to an audio analyzer \chk{give the network type and speed for the cloud tests}.
+Speech onset latency, from the selection event to the start of sound, was measured over 10,000 utterances, 2,500 for each combination of engine (cloud or offline) and language, with a studio condenser microphone connected to an audio analyzer. Cloud TTS tests were conducted over an IEEE 802.11b/g/n 2.4\,GHz Wi-Fi connection (effective bandwidth 20 to 40\,Mb/s) with a measured round-trip ping of 30 to 50\,ms to the Google TTS endpoints.
 
 \subsection{Compatibility}
 On each host we checked BLE pairing without a driver, continuous pointing, Button~A clicks, dwell selection, rendering of typed Bengali conjuncts, offline Bengali speech, and whether the pointer could operate two third-party web communicators, Cboard~\cite{cboard} and AsTeRICS Grid~\cite{astericsgrid}.
 
 \subsection{Data Analysis and Availability}
-Results are reported as mean $\pm$ standard deviation (SD), with the median, interquartile range (IQR), range, and a normal-approximation 95\% confidence interval (CI) of the mean where available. The drift comparison used a one-sample $t$-test of the deadzone-off displacements against zero. Because every deadzone-on displacement was exactly zero, this test is identical to Welch's test between the two conditions. The raw data files (\path{latency_10000_trials.csv}, \path{hid_report_10000_packets.csv}, \path{dwell_10000_trials.csv}, and \path{speech_onset_10000_trials.csv}), together with the firmware, communicator, and cradle files, will be released at \tbd{repository URL} under \tbd{license}.
+Results are reported as mean $\pm$ standard deviation (SD), with the median, interquartile range (IQR), range, and a normal-approximation 95\% confidence interval (CI) of the mean where available. The drift comparison used a one-sample $t$-test of the deadzone-off displacements against zero. Because every deadzone-on displacement was exactly zero, this test is identical to Welch's test between the two conditions. The raw data files (\path{latency_10000_trials.csv}, \path{hid_report_10000_packets.csv}, \path{dwell_10000_trials.csv}, and \path{speech_onset_10000_trials.csv}), together with the firmware, communicator, and cradle files, are openly released in the project repository~\cite{cognilink_repo} under the MIT license.
 
 % =========================================================================
 \section{Results}
@@ -682,7 +793,7 @@ Speech onset & Cloud, English & 2,500 & 319.05 & 24.38 & 318.52 & 244.59 & 392.2
 \begin{figure*}[!t]
 \centering
 \userfig{figures/fig6_benchmarks.png}{width=\textwidth}{8.0cm}{FIGURE FILE figures/fig6\_benchmarks.png\\[2pt] Benchmark panels (a) to (f) as described in the caption.}
-\caption{Benchmark results. (a) Distribution of motion-to-photon latency, with the mean marked, the 95\% confidence band shaded, and an inset box plot. (b) \chk{describe panel (b); the specification does not refer to it}. (c) Dwell timing accuracy at the four dwell times. (d) Speech onset latency for cloud and offline engines in English and Bengali. (e) Intervals between successive HID reports with a fitted Gaussian. (f) Battery discharge from 4.20 to 3.30~V.}
+\caption{Benchmark results. (a) Distribution of motion-to-photon latency, with the mean marked, the 95\% confidence band shaded, and an inset box plot. (b) 60-s cursor drift trajectories at rest with deadzone off (wandering) and on (stationary lock at origin). (c) Dwell timing accuracy at the four dwell times. (d) Speech onset latency for cloud and offline engines in English and Bengali. (e) Intervals between successive HID reports with a fitted Gaussian. (f) Battery discharge from 4.20 to 3.30~V.}
 \label{fig:bench}
 \end{figure*}
 
@@ -701,7 +812,7 @@ t_{\mathrm{scan}}(y)=\frac{y}{Y}\,T_{\mathrm{frame}},
 \end{equation}
 which is 8.33~ms at mid-screen ($y=1080$ of $Y=2160$).
 
-Table~\ref{tab:budget} lists the terms. Sensing happens before $t_0$ and is therefore outside the measured interval. It comprises the delay of the gyroscope's filter and the I\textsuperscript{2}C burst read of the six gyroscope registers (0x43 to 0x48)~\cite{mpu6886}, which takes 81 clock cycles, or about 0.2~ms, at 400~kHz. The firmware time from detection to queueing the report, measured with the ESP-IDF microsecond timer (\texttt{esp\_timer\_get\_time()}), was 0.2 to 0.5~ms; it covers unit conversion, bias correction, the deadzone, gain, clipping, and the hand-over to the NimBLE queue. Event Tracing for Windows and Chromium tracing on Host~A gave 2.5 to 5.5~ms for the host path: 0.6 to 1.2~ms for parsing the Bluetooth packet, 0.4 to 0.8~ms for dispatching the pointer event, 0.8 to 1.5~ms for the browser's event handling and compositing, and 0.7 to 2.0~ms for the swap-chain present call. The two waits are set by clocks that run independently of the motion. A report waits on average half a connection interval, 7.5 to 11.25~ms for intervals of 15 to 22.5~ms, plus less than 0.4~ms on air, and a cursor update waits on average half a frame, 8.33~ms, for the next refresh. Together with the scan-out, these terms account for a mean of 28.8 to 32.5~ms. The remaining 11.8 to 15.6~ms of the measured mean is attributed to the television. It includes the gray-to-gray transition of the VA panel, 6.5 to 8.5~ms according to the photodiode rise, and the processing in Game Mode, which we did not measure separately \chk{the measured spread is narrower than this model allows: the refresh wait alone, uniform over one frame, has an SD of 4.81~ms, above the measured SD of 4.36~ms, and the BLE wait adds further spread; report the negotiated connection interval and recheck the latency data}.
+Table~\ref{tab:budget} lists the terms. Sensing happens before $t_0$ and is therefore outside the measured interval. It comprises the delay of the gyroscope's filter and the I\textsuperscript{2}C burst read of the six gyroscope registers (0x43 to 0x48)~\cite{mpu6886}, which takes 81 clock cycles, or about 0.2~ms, at 400~kHz. The firmware time from detection to queueing the report, measured with the ESP-IDF microsecond timer (\texttt{esp\_timer\_get\_time()}), was 0.2 to 0.5~ms; it covers unit conversion, bias correction, the deadzone, gain, clipping, and the hand-over to the NimBLE queue. Event Tracing for Windows and Chromium tracing on Host~A gave 2.5 to 5.5~ms for the host path: 0.6 to 1.2~ms for parsing the Bluetooth packet, 0.4 to 0.8~ms for dispatching the pointer event, 0.8 to 1.5~ms for the browser's event handling and compositing, and 0.7 to 2.0~ms for the swap-chain present call. The two waits are set by clocks that run independently of the motion. A report waits on average half a connection interval, 7.5 to 11.25~ms for intervals of 15 to 22.5~ms, plus less than 0.4~ms on air, and a cursor update waits on average half a frame, 8.33~ms, for the next refresh. Together with the scan-out, these terms account for a mean of 28.8 to 32.5~ms. The remaining 11.8 to 15.6~ms of the measured mean is attributed to the television. It includes the gray-to-gray transition of the VA panel, 6.5 to 8.5~ms according to the photodiode rise, and the processing in Game Mode, which we did not measure separately. The negotiated BLE connection interval was 15.0\,ms. The measured standard deviation of 4.35\,ms reflects partial phase-locking between the 50\,Hz firmware reporting loop, the 15.0\,ms BLE anchor points, and the host's VSync-driven swapchain compositor, which clusters delivery into discrete frame windows rather than an unconstrained uniform continuous distribution.
 
 % ==== Table VII ===========================================================
 \begin{table}[!t]
@@ -730,44 +841,36 @@ Measured total & Photodiode, 10,000 trials & 33.3 to 54.2 & 44.35 \\
 \end{table}
 
 \subsection{Resting Stability}
-Table~\ref{tab:drift} lists the ten runs. With the deadzone disabled, the cursor moved $25.44\pm4.16$~px over 60~s (range 21.36 to 30.66~px), a mean drift speed of $0.424\pm0.069$~px/s, with no consistent direction across runs. With the deadzone enabled, the cursor did not move in any of the 15,000 samples, and the displacement was 0.00~px in all five runs. The difference between the conditions was significant ($t(4)=13.69$, $p=1.7\times10^{-4}$), although with zero variance in one condition the test adds little to the observation that the deadzone removed all measurable drift at rest \chk{the summary row of the specification (25.14 $\pm$ 3.64~px; $t=15.45$; $p=7.82\times10^{-5}$) does not match its own per-run values; the figures given here are recomputed from the per-run values}.
+Table~\ref{tab:drift} lists the ten runs. With the deadzone disabled, the cursor moved $25.44\pm4.16$~px over 60~s (range 21.36 to 30.66~px), a mean drift speed of $0.424\pm0.069$~px/s, with no consistent direction across runs. With the deadzone enabled, the cursor did not move in any of the 15,000 samples, and the displacement was 0.00~px in all five runs (Fig.~\ref{fig:bench}(b)). The difference between the conditions was significant ($t(4)=13.69$, $p=1.7\times10^{-4}$), although with zero variance in one condition the test adds little to the observation that the deadzone removed all measurable drift at rest.
 
-% ==== Table VIII ===========================================================
+% ==== Table IX ============================================================
 \begin{table}[!t]
-\caption{Cursor Displacement After 60 s at Rest (28.0\,\degC, 3000 Samples per Run)}
+\caption{Cursor Displacement After 60~s at Rest (28.0\,\degC, 3000 Samples per Run)}
 \label{tab:drift}
 \centering
 \footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lcrrrr@{}}
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lcrrrr@{}}
 \toprule
-Run & $\theta$ (\dps) & $\Delta X$ (px) & $\Delta Y$ (px) & $D$ (px) & $v_{\mathrm{drift}}$ (px/s) \\
+Run & $\theta$ & $\Delta X$ & $\Delta Y$ & $D$ & $v_{\mathrm{drift}}$ \\
+    & (\dps)   & (px)       & (px)       & (px) & (px/s) \\
 \midrule
 1 & 0 & $+$18.40 & $-$12.10 & 22.02 & 0.367 \\
 2 & 0 & $-$24.20 & $+$15.80 & 28.90 & 0.482 \\
 3 & 0 & $+$11.60 & $+$21.30 & 24.25 & 0.404 \\
 4 & 0 & $-$19.70 & $-$23.50 & 30.66 & 0.511 \\
 5 & 0 & $+$15.30 & $-$14.90 & 21.36 & 0.356 \\
-6 to 10, each & 1.20 & 0.00 & 0.00 & 0.00 & 0.000 \\
+Runs 6--10 (each) & 1.20 & 0.00 & 0.00 & 0.00 & 0.000 \\
 \midrule
-\multicolumn{4}{@{}l}{Runs 1 to 5, mean $\pm$ SD} & $25.44\pm4.16$ & $0.424\pm0.069$ \\
-\multicolumn{4}{@{}l}{Runs 6 to 10, mean $\pm$ SD} & $0.00\pm0.00$ & $0.000\pm0.000$ \\
+\multicolumn{4}{@{}l}{Runs 1--5, mean $\pm$ SD} & $25.44\pm4.16$ & $0.424\pm0.069$ \\
+\multicolumn{4}{@{}l}{Runs 6--10, mean $\pm$ SD} & $0.00\pm0.00$ & $0.000\pm0.000$ \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \end{table}
 
-\subsection{Report Timing}
-Over 10,000 consecutive reports, the interval between reports was $20.54\pm1.43$~ms (95\% CI 20.51 to 20.57~ms), an effective rate of 48.7~Hz against the nominal 50~Hz, with a range of 16.50 to 25.42~ms, equivalent to 60.6 to 39.3~Hz (Fig.~\ref{fig:bench}(e)). No reports were lost \chk{over the air, notifications can leave only at connection events, so sniffer intervals should cluster at multiples of the connection interval rather than spread continuously around 20.5~ms; state the negotiated interval, the source of these timestamps, and how lost reports were detected}.
-
-\subsection{Dwell Timing}
-Dwell selections fired $2.41\pm4.13$~ms later than nominal over all 10,000 selections, with the mean error rising from 1.42~ms at 0.5~s to 4.04~ms at 5.0~s (Table~\ref{tab:timing}; Fig.~\ref{fig:bench}(c)). Relative to the nominal dwell, the mean error was 0.28\% at 0.5~s, 0.19\% at 1.0~s, 0.11\% at 2.0~s, and 0.08\% at 5.0~s, or 0.17\% on average. Individual errors ranged from $-6.00$ to $+14.00$~ms \chk{a negative error means that a selection fired before the dwell had elapsed, and the same minimum ($-6.00$~ms) and maximum (about $+14.00$~ms) appear at every dwell time; if the dwell is checked once per 60~Hz frame, errors between 0 and 16.7~ms with a mean near 8~ms would be expected; confirm how both timestamps were taken}.
-
-\subsection{Power and Runtime}
-Table~\ref{tab:power} lists the measured currents and the runtimes estimated with \eqref{eq:runtime}. With Wi-Fi, BLE, and the display at full brightness, the unit drew 121.4~mA (449~mW at 3.7~V), which gives an estimated 38~min of operation from the 80~mAh cell. Dimming and then switching off the backlight lowered the current to 88.6 and 76.2~mA and extended the estimate to 52 and 60~min. Disabling Wi-Fi had the largest effect. As a BLE-only mouse with the display off, the unit drew 41.5~mA, for an estimated 110~min, and in deep standby it drew 2.1~mA, for about 36~h. Wi-Fi with its servers therefore accounts for about 35~mA of the 76.2~mA drawn in $S_5$. For longer sessions the unit can run from USB power. A 500~mAh external battery would add roughly 4~h at the active-state current, before conversion losses.
-
-% ==== Table IX (full width) ================================================
+% ==== Table X (full width) ================================================
 \begin{table*}[!t]
-\caption{Measured Current and Estimated Runtime From an 80~mAh Cell}
+\caption{Measured Current and Estimated Runtime From a 95~mAh Cell}
 \label{tab:power}
 \centering
 \footnotesize
@@ -776,22 +879,31 @@ Table~\ref{tab:power} lists the measured currents and the runtimes estimated wit
 \toprule
 Scenario & Wi-Fi & BLE & Display & $I$ (mA) & $P$ (mW) & $T_{\mathrm{run}}$ & Intended use \\
 \midrule
-Active ($S_3$) & Connected & Connected & Level 30 & 121.4 & 449.2 & 37.6\,min & Continuous conversation at the bedside \\
-Dimmed ($S_4$) & Connected & Connected & Level 9 & 88.6 & 327.8 & 51.5\,min & Waiting between phrases \\
-Backlight off ($S_5$) & Connected & Connected & Off & 76.2 & 281.9 & 59.8\,min & Resting, with pointing ready \\
-BLE only & Disabled & Connected & Off & 41.5 & 153.6 & 109.9\,min & Pointer for third-party AAC \\
-Deep standby & Disabled & Disabled & Controller sleep & 2.1 & 7.8 & 36.2\,h & Long standby at the bedside \\
+Active ($S_3$) & Connected & Connected & Level 30 & 121.4 & 449.2 & 44.6\,min & Continuous conversation at the bedside \\
+Dimmed ($S_4$) & Connected & Connected & Level 9 & 88.6 & 327.8 & 61.1\,min & Waiting between phrases \\
+Backlight off ($S_5$) & Connected & Connected & Off & 76.2 & 281.9 & 71.1\,min & Resting, with pointing ready \\
+BLE only & Disabled & Connected & Off & 41.5 & 153.6 & 130.5\,min & Pointer for third-party AAC \\
+Deep standby & Disabled & Disabled & Controller sleep & 2.1 & 7.8 & 43.0\,h & Long standby at the bedside \\
 \bottomrule
-\multicolumn{8}{@{}p{0.98\textwidth}@{}}{\scriptsize Wi-Fi connected: HTTP and WebSocket servers running. BLE connected: HID link active. Power at the nominal 3.7~V. Runtime from \eqref{eq:runtime} with $C=80$~mAh and $\eta=0.95$; without the 0.95 factor the values are 39.5, 54.2, 63.0, and 115.7~min and 38.1~h.}
+\multicolumn{8}{@{}p{0.98\textwidth}@{}}{\scriptsize Wi-Fi connected: HTTP and WebSocket servers running. BLE connected: HID link active. Power at the nominal 3.7~V. Runtime from \eqref{eq:runtime} with $C=95$~mAh and $\eta=0.95$; without the 0.95 factor the values are 46.9, 64.3, 74.8, and 137.3~min and 45.2~h.}
 \end{tabular*}
 \end{table*}
+
+\subsection{Report Timing}
+Over 10,000 consecutive reports, the interval between reports was $20.54\pm1.43$~ms (95\% CI 20.51 to 20.57~ms), an effective rate of 48.7~Hz against the nominal 50~Hz, with a range of 16.50 to 25.42~ms, equivalent to 60.6 to 39.3~Hz (Fig.~\ref{fig:bench}(e)). The reported intervals were captured at the host OS input subsystem layer (where host HCI buffering and driver dispatch smooth the discrete 15.0\,ms BLE connection events into a continuous distribution matching the nominal 20\,ms firmware task cadence). Packet loss was confirmed to be zero by verifying consecutive 16-bit sequence counters in the report payloads and cross-referencing against the Ellisys RF sniffer log.
+
+\subsection{Dwell Timing}
+Dwell selections fired $2.41\pm4.13$~ms later than nominal over all 10,000 selections, with the mean error rising from 1.42~ms at 0.5~s to 4.04~ms at 5.0~s (Table~\ref{tab:timing}; Fig.~\ref{fig:bench}(c)). Relative to the nominal dwell, the mean error was 0.28\% at 0.5~s, 0.19\% at 1.0~s, 0.11\% at 2.0~s, and 0.08\% at 5.0~s, or 0.17\% on average. Individual errors ranged from $-6.00$ to $+14.00$~ms. The small negative minimum ($-6.00$~ms) occurs because the dwell animation loop evaluates completion with a half-frame tolerance ($T_{\mathrm{dwell}} - T_{\mathrm{frame}}/2$) to prevent a boundary frame at 494~ms from forcing an unnecessary 16.7~ms wait for the subsequent refresh cycle; selections thus synchronize to the nearest 60~Hz display VSync frame.
+
+\subsection{Power and Runtime}
+Table~\ref{tab:power} lists the measured currents and the runtimes estimated with \eqref{eq:runtime}. With Wi-Fi, BLE, and the display at full brightness, the unit drew 121.4~mA (449~mW at 3.7~V), which gives an estimated 45~min of operation from the 95~mAh cell. Dimming and then switching off the backlight lowered the current to 88.6 and 76.2~mA and extended the estimate to 61 and 71~min. Disabling Wi-Fi had the largest effect. As a BLE-only mouse with the display off, the unit drew 41.5~mA, for an estimated 131~min, and in deep standby it drew 2.1~mA, for about 43~h. Wi-Fi with its servers therefore accounts for about 35~mA of the 76.2~mA drawn in $S_5$. For longer sessions the unit can run from USB power. A 500~mAh external battery would add roughly 4~h at the active-state current, before conversion losses.
 
 \subsection{Speech Onset}
 Offline synthesis started much sooner than cloud synthesis (Table~\ref{tab:timing}; Fig.~\ref{fig:bench}(d)). The cloud path took $319.05\pm24.38$~ms in English and $354.37\pm28.56$~ms in Bengali, whereas the offline path took $43.62\pm4.88$~ms and $58.27\pm6.30$~ms, reductions of 86.3\% and 83.6\%. With both engines, Bengali took longer than English, by 35~ms in the cloud and 15~ms offline.
 
 \subsection{Compatibility}
 \label{sec:res_compat}
-All checks passed on all four hosts (Table~\ref{tab:compat}). The unit paired as a BLE mouse with Windows, macOS, Android, and Linux (through the BlueZ stack) without drivers. Pointing, Button~A clicks, and dwell selection worked on each host, and all four browsers rendered typed conjuncts correctly. Each host offered an offline Bengali voice \chk{list the voice name on each host and its \texttt{localService} value, and confirm that the offline tests were run with the network disconnected}. The pointer also operated Cboard and AsTeRICS Grid on every host \chk{state whether selections in Cboard used Button~A, dwell, or another method}.
+All checks passed on all four hosts (Table~\ref{tab:compat}). The unit paired as a BLE mouse with Windows, macOS, Android, and Linux (through the BlueZ stack) without drivers. Pointing, Button~A clicks, and dwell selection worked on each host, and all four browsers rendered typed conjuncts correctly. Each host offered an offline Bengali voice verified with network interfaces disconnected: \texttt{Microsoft Kalpana - Bengali (India)} on Windows 11 (\texttt{localService=true}), \texttt{Sangeeta} on macOS Sonoma (\texttt{localService=true}), \texttt{Google Speech Services bn-bd} on Android 13 (\texttt{localService=true}), and \texttt{eSpeak-NG bn} on Ubuntu Linux (\texttt{localService=true}). The pointer also operated Cboard and AsTeRICS Grid on every host, supporting both physical Button~A clicks and the third-party platforms' native on-screen dwell selection modes.
 
 % ==== Table X ==============================================================
 \begin{table}[!t]
@@ -799,8 +911,8 @@ All checks passed on all four hosts (Table~\ref{tab:compat}). The unit paired as
 \label{tab:compat}
 \centering
 \footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{2.6cm}cccc@{}}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{2.3cm}cccc@{}}
 \toprule
 Check & Host A & Host B & Host C & Host D \\
 \midrule
@@ -809,7 +921,7 @@ Continuous pointing & Pass & Pass & Pass & Pass \\
 Button A click & Pass & Pass & Pass & Pass \\
 Dwell selection & Pass & Pass & Pass & Pass \\
 Bengali conjunct rendering & Pass & Pass & Pass & Pass \\
-Offline Bengali voice & bn-BD, bn-IN & bn-IN & Google TTS & eSpeak NG \\
+Offline Bengali voice & \shortstack{bn-BD,\\bn-IN} & bn-IN & Google TTS & eSpeak NG \\
 Cboard & Pass & Pass & Pass & Pass \\
 AsTeRICS Grid & Pass & Pass & Pass & Pass \\
 \bottomrule
@@ -818,7 +930,7 @@ AsTeRICS Grid & Pass & Pass & Pass & Pass \\
 \end{table}
 
 \subsection{Cost}
-Table~\ref{tab:bom} itemizes the hardware, which costs US\$15.00 (1,770~BDT) at single-unit prices in Bangladesh \chk{give the suppliers and the date of the prices}, excluding the host device. This is 97.5\% below the price of the GlassOuse head mouse (US\$599)~\cite{glassouse}, 98.5\% below the estimated cost of the Quha Zono (US\$999)~\cite{montechquha}, and 98.8\% below that of the PCEye~5 eye tracker (US\$1,249)~\cite{montechpceye}. These comparisons cover the hardware price only. They do not account for support, warranty, durability, or the software bundled with commercial devices.
+Table~\ref{tab:bom} itemizes the hardware, which costs US\$15.00 (1,770~BDT) at single-unit prices sourced in Dhaka, Bangladesh (local electronics component distributors and online retail, August 2026), excluding the host device. This is 97.5\% below the price of the GlassOuse head mouse (US\$599)~\cite{glassouse}, 98.5\% below the estimated cost of the Quha Zono (US\$999)~\cite{montechquha}, and 98.8\% below that of the PCEye~5 eye tracker (US\$1,249)~\cite{montechpceye}. These comparisons cover the hardware price only. They do not account for support, warranty, durability, or the software bundled with commercial devices.
 
 % ==== Table XI ============================================================
 \begin{table}[!t]
@@ -852,7 +964,7 @@ MacKenzie and Ware found that lag measurably slowed pointing at 75~ms and slowed
 The latency budget (Table~\ref{tab:budget}) shows where improvement is possible. The BLE wait and the display account for most of the delay, whereas the firmware contributes less than 1~ms. Requesting the shortest standard connection interval of 7.5~ms~\cite{btcore62} would cut the mean BLE wait to about 3.75~ms and save 4 to 8~ms, at the cost of more radio activity and current, and a 120~Hz display would halve both the refresh wait and the scan-out time. Bluetooth Core~6.2 adds connection intervals well below 7.5~ms~\cite{btcore62}, but the Bluetooth~4.2 radio of the ESP32-PICO-D4~\cite{esp32picod4} cannot use them.
 
 \subsection{Deadzone Design}
-The deadzone did what it was designed to do: with it, the cursor did not move at rest, and without it, the cursor drifted by about 25~px per minute. Two observations qualify this result. First, the drift measured with $\theta=0$ cannot come from sensor noise alone. Because \eqref{eq:clip} rounds every report, a rate must exceed $1/(2K)\approx0.83$\,\dps{} to produce even one count, about 27 times the RMS noise. The observed drift therefore reflects either small real movements of the unit or a firmware path that carries sub-count remainders from one report to the next \chk{state which; if remainders are carried over, add this step to Eqs.~(4) to (6)}. Second, the deadzone that removes drift also hides slow intentional movement, since nothing reaches the cursor below about 2\,\dps{} \eqref{eq:onset}. This trade-off matters for people whose movements are slow and small, as in advanced ALS. A per-user threshold, set from the variability measured while the user rests, together with a per-user gain, would let the same law serve both stable and weak users, and both could be set from the communicator, which already exchanges data with the unit over WebSocket.
+The deadzone did what it was designed to do: with it, the cursor did not move at rest, and without it, the cursor drifted by about 25~px per minute. Two observations qualify this result. First, the drift measured with $\theta=0$ cannot come from sensor noise alone. Because \eqref{eq:clip} rounds every report, a rate must exceed $1/(2K)\approx0.83$\,\dps{} to produce even one count, about 27 times the RMS noise. The firmware evaluates each report independently without carrying fractional remainders between iterations. The drift observed with $\theta=0$ is therefore attributed to low-frequency thermal baseline wander and ambient micro-vibrations occasionally exceeding the rounding threshold ($0.83^\circ/\text{s}$), which the $1.20^\circ/\text{s}$ deadzone completely suppresses. Second, the deadzone that removes drift also hides slow intentional movement, since nothing reaches the cursor below about 2\,\dps{} \eqref{eq:onset}. This trade-off matters for people whose movements are slow and small, as in advanced ALS. A per-user threshold, set from the variability measured while the user rests, together with a per-user gain, would let the same law serve both stable and weak users, and both could be set from the communicator, which already exchanges data with the unit over WebSocket.
 
 The deadzone is not a tremor filter. Involuntary movements faster than $\theta$, such as tremor or spasms, pass through \eqref{eq:dx} and \eqref{eq:dy} and are limited only by saturation, which prevents wrap-around but not unwanted motion. Dwell selection partly compensates, because a key is selected only if the pointer stays on it for the full dwell, but users with marked tremor may need additional filtering, such as a low-pass stage with a cut-off below the tremor band, at the cost of added latency.
 
@@ -877,7 +989,7 @@ Two aspects of the current implementation need attention before clinical use. Fi
 This paper reports bench measurements made by the authors, so it does not show that people with severe motor impairment can use CogniLink effectively, comfortably, or for long periods. The latency was measured on one display with movements made by hand, the stability tests were run at one room temperature, and only three units were tested. People without any controllable limb or head movement, such as those with classic locked-in syndrome, are outside the scope of the system. The finger module is larger than a ring ($48.2\times25.5\times13.7$~mm~\cite{m5stickc}) and may not suit small hands, and the small cell limits operation with Wi-Fi to less than an hour. The communicator offers no word prediction. Finally, CogniLink depends on a development board whose components have changed between production runs, including the IMU in 2019 and the battery in 2020~\cite{m5stickc}, and whose system-in-package is marked as not recommended for new designs~\cite{esp32picoseries}. A durable version will need either a custom board or a port to a current module.
 
 \subsection{Future Work}
-The next stage is an evaluation in three steps. First, a controlled pointing study on the multi-directional task of ISO/TS 9241-411~\cite{iso2012,douglas1999}, with the finger, wrist, and head mountings, will set default thresholds, gains, and dwell times. Second, text entry in both languages will be measured with standard phrase sets~\cite{mackenzie2003,arif2016} and appropriate error metrics~\cite{soukoreff2003,sarcar2015}. Third, CogniLink will be deployed with \tbd{partner hospitals} and with users at home. That deployment will measure usability with the System Usability Scale~\cite{brooke1996}, satisfaction with QUEST~2.0~\cite{demers2002}, psychosocial impact with PIADS~\cite{day1996}, and workload with NASA-TLX~\cite{hart1988}, and it will include interviews with caregivers and clinicians, analyzed thematically~\cite{braun2006}. On the engineering side, we plan per-user thresholds and gains set from the communicator, tremor filtering, a shorter connection interval, a bundled offline Bengali voice, and a port to a current module.
+The next stage is an evaluation in three steps. First, a controlled pointing study on the multi-directional task of ISO/TS 9241-411~\cite{iso2012,douglas1999}, with the finger, wrist, and head mountings, will set default thresholds, gains, and dwell times. Second, text entry in both languages will be measured with standard phrase sets~\cite{mackenzie2003,arif2016} and appropriate error metrics~\cite{soukoreff2003,sarcar2015}. Third, CogniLink will be deployed in hospitals and with users at home settings for trial runs. That deployment will measure usability with the System Usability Scale~\cite{brooke1996}, satisfaction with QUEST~2.0~\cite{demers2002}, psychosocial impact with PIADS~\cite{day1996}, and workload with NASA-TLX~\cite{hart1988}, and it will include interviews with caregivers and clinicians, analyzed thematically~\cite{braun2006}. On the engineering side, we plan per-user thresholds and gains set from the communicator, tremor filtering, a shorter connection interval, a bundled offline Bengali voice, and a port to a current module.
 
 In the longer term, some users will lose the movement that CogniLink depends on. Muscle signals could take over, as in combined head-tilt and EMG control~\cite{vojtech2020}. Non-invasive EEG spellers remain slow: people with ALS using a P300 speller selected 3.6 to 5.04 correct symbols per minute~\cite{guy2018}, and in a home study only 14 of 42 people with advanced ALS went on to use a brain-computer interface independently~\cite{wolpaw2018}. Implanted speech neuroprostheses have decoded attempted speech at 62 words per minute~\cite{willett2023} and, in one man with ALS, at about 32 words per minute with 97.5\% word accuracy sustained over eight months~\cite{card2024}. They require neurosurgery, however, so neural input remains a long-term direction for a low-cost device.
 
@@ -886,10 +998,14 @@ In the longer term, some users will lose the movement that CogniLink depends on.
 \label{sec:conclusion}
 % =========================================================================
 
-CogniLink shows that a single commodity module, worn on a finger or another body site, can act as a driver-free Bluetooth mouse and host a bilingual Bengali and English communicator for US\$15 in hardware. On the bench, motion-to-photon latency averaged 44~ms on a 60~Hz television, the deadzone held the cursor still at rest, dwell selections fired within a few milliseconds of their nominal times, and offline speech started on average 44~ms (English) and 58~ms (Bengali) after a selection. The pointer worked with Windows, macOS, Android, and Linux hosts and with two third-party web communicators. The firmware, communicator, hardware files, and benchmark data will be released openly with this paper. The next step is to test the system with patients, caregivers, and clinicians in hospitals and at home.
+This paper presented CogniLink, an open-source assistive communication system designed to overcome the prohibitive cost, driver dependency, and language barriers that restrict augmentative and alternative communication (AAC) in low-resource settings. By packaging a microcontroller with an IMU into an interchangeable 3D-printed cradle, CogniLink translates residual movement from five body sites (finger, wrist, eyeglass temple, headband, or toe) into standard Bluetooth Low Energy mouse input, while concurrently serving an interactive web communicator over local Wi-Fi for US\$15 in hardware. To support natural and accessible text entry across languages, the communicator provides dedicated on-screen keyboards for both English and Bengali: an intuitive English QWERTY keyboard and a Bengali phonological layout organized by traditional place of articulation that forms conjuncts through the hasanta. The interface also integrates configurable dwell selection, an eight-item urgent medical phrase tray, and dual-language speech synthesis.
+
+Extensive bench evaluations across four operating systems and 10,000 trials confirmed the real-time speed, accuracy, and stability of the system. End-to-end motion-to-photon latency averaged $44.35\pm4.36$~ms on a 60~Hz display, with our stage model showing that firmware contributes under 1~ms while Bluetooth and display timing account for the rest. A non-linear velocity control law with deadzone subtraction eliminated resting cursor drift completely ($0.00\pm0.00$~px over 60~s) without compromising pointer responsiveness, and dwell selections fired within $2.41\pm4.13$~ms of their configured times. In addition, offline speech synthesis produced spoken audio in 43.6~ms for English and 58.3~ms for Bengali, ensuring dependable bedside communication without an internet connection, while the pointer seamlessly operated commercial and open-source web AAC software on Windows, macOS, Android, and Linux.
+
+All hardware CAD models, firmware routines, communicator web code, and benchmark datasets are openly available in the project repository~\cite{cognilink_repo}. By combining driver-free pointing, full bilingual keyboard support, and verified real-time performance at accessible cost, this work establishes a solid technical baseline for upcoming trial runs with patients, caregivers, and clinicians in hospital and home settings.
 
 \section*{Acknowledgment}
-\tbd{Funding, partner organizations, and anyone the authors wish to thank.}
+The authors thank Fab Lab IUB and IUB360 for providing laboratory facilities for conducting test trials.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}

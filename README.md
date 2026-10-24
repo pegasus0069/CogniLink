@@ -19,24 +19,25 @@
 8. [Software Requirements](#software-requirements)
 9. [Libraries](#libraries)
 10. [Project Structure](#project-structure)
-11. [Installation and Upload](#installation-and-upload)
-12. [First-Time Wi-Fi Setup](#first-time-wi-fi-setup)
-13. [Bluetooth Pairing](#bluetooth-pairing)
-14. [Opening the Communicator](#opening-the-communicator)
-15. [Step-by-Step User Guide](#step-by-step-user-guide)
-16. [English and Bengali Support](#english-and-bengali-support)
-17. [Text-to-Speech Behavior](#text-to-speech-behavior)
-18. [M5StickC Controls](#m5stickc-controls)
-19. [Device Display and Status](#device-display-and-status)
-20. [Power Management](#power-management)
-21. [Wi-Fi Reset and Recovery](#wi-fi-reset-and-recovery)
-22. [Firmware Technical Reference](#firmware-technical-reference)
-23. [WebSocket Data](#websocket-data)
-24. [Troubleshooting](#troubleshooting)
-25. [Safety and Limitations](#safety-and-limitations)
-26. [Future Work](#future-work)
-27. [License](#license)
-28. [Product poster (PDF)](https://github.com/user-attachments/files/31867998/CogniLink.Neuro-Assistive.Poster.1.pdf)
+11. [3D CAD Models and Wearable Mounts](#3d-cad-models-and-wearable-mounts)
+12. [Installation and Upload](#installation-and-upload)
+13. [First-Time Wi-Fi Setup](#first-time-wi-fi-setup)
+14. [Bluetooth Pairing](#bluetooth-pairing)
+15. [Opening the Communicator](#opening-the-communicator)
+16. [Step-by-Step User Guide](#step-by-step-user-guide)
+17. [English and Bengali Support](#english-and-bengali-support)
+18. [Text-to-Speech Behavior](#text-to-speech-behavior)
+19. [M5StickC Controls](#m5stickc-controls)
+20. [Device Display and Status](#device-display-and-status)
+21. [Power Management](#power-management)
+22. [Wi-Fi Reset and Recovery](#wi-fi-reset-and-recovery)
+23. [Firmware Technical Reference](#firmware-technical-reference)
+24. [WebSocket Data](#websocket-data)
+25. [Troubleshooting](#troubleshooting)
+26. [Safety and Limitations](#safety-and-limitations)
+27. [Future Work](#future-work)
+28. [License](#license)
+29. [Product poster (PDF)](https://github.com/user-attachments/files/31867998/CogniLink.Neuro-Assistive.Poster.1.pdf)
 
 ## Overview
 
@@ -187,7 +188,7 @@ The firmware serves the page stored in `INDEX_HTML` from `index.h`. The browser 
    - `BtnA` and `BtnB`
    - Battery and power-management hardware
 2. **USB data cable** suitable for programming the M5StickC
-3. **Wearable mount, finger strap, or custom holder**
+3. **Wearable mount, finger strap, or custom holder**: Production-ready 3D-printable PETG mounting cradles for 5 anatomical deployment sites are provided in the [`cad/`](cad/) directory.
 4. **Computer, tablet, or phone** with:
    - A modern browser with JavaScript and WebSocket support
    - Bluetooth HID mouse support
@@ -222,9 +223,17 @@ The firmware also includes these libraries from the ESP32 Arduino core:
 
 ```text
 CogniLink/
-├── m5stickc/
-│   ├── m5stickc.ino   # ESP32 firmware and device runtime
-│   └── index.h         # Embedded HTML, CSS, and JavaScript UI
+├── cad/                # 3D CAD cradle suite and additive manufacturing assets
+│   ├── stl/            # Watertight binary STL models for 5 anatomical mounting sites
+│   ├── openscad/       # Parametric OpenSCAD customizer models
+│   ├── scripts/        # Procedural binary STL synthesis script (pure NumPy)
+│   └── README.md       # Mechanical specs, FDM printing guide, and assembly protocol
+├── m5stickc/           # Embedded firmware and autonomous web communicator
+│   ├── m5stickc.ino    # ESP32 dual-core firmware (kinematic pointer & web server)
+│   └── index.h         # Bilingual AAC interface (English + Bengali) & speech engines
+├── cognilink-journal-overleaf paper contents/ # IEEE journal article & benchmarks
+├── datasets/           # 10,000-trial benchmark CSV datasets
+├── figures/            # System architecture, testbed, and performance figures
 ├── Screenshots/        # Representative communicator interface screenshots
 ├── LICENSE             # GNU General Public License v3.0
 └── README.md           # Project documentation
@@ -256,6 +265,21 @@ CogniLink/
 - TTS selection and fallback
 - Dwell-click behavior
 - WebSocket status and battery handling
+
+## 3D CAD Models and Wearable Mounts
+
+The [`cad/`](cad/) directory contains production-ready 3D CAD models engineered specifically for the M5StickC module ($48.2 \times 25.5 \times 13.7$ mm, $15.1$ g) and its interchangeable 3D-printed PETG cradle system (Table XI/XII in the IEEE paper, itemized at **US\$0.45 / 53 BDT** in manufacturing cost).
+
+Each mount supports tool-free snap-fit retention with $0.30$ mm FDM tolerances, uninterrupted USB-C charging access, and full visibility of the LCD screen:
+
+1. **Primary Finger Ring Mount** ([`cad/stl/cognilink_finger_ring_cradle.stl`](cad/stl/cognilink_finger_ring_cradle.stl)): Concave dorsal saddle ($R = 10.5$ mm) for the proximal phalanx with dual $12.5 \times 2.2$ mm ring strap cinch loops.
+2. **Wrist Mount** ([`cad/stl/cognilink_wrist_mount_cradle.stl`](cad/stl/cognilink_wrist_mount_cradle.stl)): Broad carpal saddle ($R = 32.0$ mm) with dual $20.5 \times 2.8$ mm slots for standard medical/sport wristbands.
+3. **Eyeglass Temple Clip** ([`cad/stl/cognilink_eyeglass_temple_clip.stl`](cad/stl/cognilink_eyeglass_temple_clip.stl)): Tension-fit dual-jaw clip for spectacle frame arms ($2.5$–$5.0$ mm), aligning cervical nodding with pitch and head tilt with roll.
+4. **Forehead Headband Mount** ([`cad/stl/cognilink_headband_mount_cradle.stl`](cad/stl/cognilink_headband_mount_cradle.stl)): Cranial contoured baseplate ($R = 80.0$ mm) with dual vertical brackets for $25$ mm elastic bands.
+5. **Hallux (Big Toe) Mount** ([`cad/stl/cognilink_hallux_toe_mount.stl`](cad/stl/cognilink_hallux_toe_mount.stl)): Dorsal great toe saddle ($R = 13.0$ mm) with distal joint relief for pedal articulation.
+6. **Universal Cradle Carrier** ([`cad/stl/cognilink_universal_cradle.stl`](cad/stl/cognilink_universal_cradle.stl)): Base carrier sleeve with dual $15 \times 2.5$ mm strap loops.
+
+Parametric OpenSCAD models are available in [`cad/openscad/`](cad/openscad/) for custom anatomical sizing, and all STL meshes can be synthesized using `python cad/scripts/generate_stls.py`. Detailed slicing parameters and clinical sanitization procedures are documented in [`cad/README.md`](cad/README.md).
 
 ## Installation and Upload
 

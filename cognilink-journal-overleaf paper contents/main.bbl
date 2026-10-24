@@ -105,6 +105,14 @@ R.~Amery, A.~Thirumanickam, R.~Barker, A.~Lowell, D.~Theodoros, and
   \url{https://www.asterics-foundation.org/projects/asterics-ergo-grid-2/}
 \BIBentrySTDinterwordspacing
 
+\bibitem{cognilink_repo}
+\BIBentryALTinterwordspacing
+{CogniLink Project}, ``{CogniLink}: Open-source wearable motion-tracking
+  interface and bilingual {AAC} dashboard,'' GitHub repository, 2026, accessed:
+  Oct. 2026. [Online]. Available:
+  \url{https://github.com/pegasus0069/CogniLink}
+\BIBentrySTDinterwordspacing
+
 \bibitem{montechpceye}
 \BIBentryALTinterwordspacing
 {Montana Assistive Technology Program}, ``{PCEye} 5 with computer control:
