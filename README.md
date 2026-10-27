@@ -1,6 +1,6 @@
 # CogniLink: Neuro-Assistive Communicator
 
-> An open-source, patient-centric Augmentative and Alternative Communication (AAC) prototype for people with severe motor and speech impairments.
+> A patient-centric Augmentative and Alternative Communication (AAC) prototype for people with severe motor and speech impairments.
 
 ![Status](https://img.shields.io/badge/Status-Feature%20Complete-brightgreen)
 ![Hardware](https://img.shields.io/badge/Hardware-M5StickC-blue)

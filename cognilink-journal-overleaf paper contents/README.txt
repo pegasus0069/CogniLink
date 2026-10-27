@@ -91,8 +91,8 @@ snippets/bengali.pdf Page Mapping:
   - Acknowledgments officially recognize Fab Lab IUB and IUB360 for providing testing and fabrication facilities.
   - Conclusion is written to Q1 journal standards with full bilingual keyboard coverage.
 
-6. Open-Source Hardware, CAD, and Data Availability
----------------------------------------------------
+6. Hardware, CAD, and Data Availability
+---------------------------------------
 All accompanying project materials correlate with the repository root:
   - cad/stl/      : Production-ready 3D-printable PETG mounting cradles for all 5 sites
   - cad/openscad/ : Parametric OpenSCAD customizers for personalized patient sizing

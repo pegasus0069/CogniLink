@@ -1,0 +1,45 @@
+% =========================================================================
+% Bengali text snippets for the CogniLink article.
+% Compile this file with XeLaTeX (not pdfLaTeX):  xelatex bengali.tex
+% It produces bengali.pdf, one snippet per page. main.tex is compiled with
+% pdfLaTeX and pulls each page in through the \bnimg macro, so the journal
+% PDF keeps standard fonts while Bengali is shaped correctly by HarfBuzz.
+%
+% Every snippet is set at 10 pt in Noto Serif Bengali inside an invisible
+% strut 9.6 pt high and 3.6 pt deep, so all pages share one baseline.
+% If you add, remove, or reorder snippets, update the page map in main.tex.
+% =========================================================================
+\documentclass[multi=bnsnip,border={0.4pt 0pt 0.4pt 0pt}]{standalone}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Termes}
+\newfontfamily\bnfont[Script=Bengali]{Noto Serif Bengali}
+\newenvironment{bnsnip}{\bnfont\fontsize{10}{12}\selectfont\rule[-3.6pt]{0pt}{13.2pt}}{}
+
+\begin{document}
+% ==== Emergency phrase labels (pages 1 to 8)
+\begin{bnsnip}সাকশন দরকার\end{bnsnip}
+\begin{bnsnip}ব্যথা করছে\end{bnsnip}
+\begin{bnsnip}শ্বাসকষ্ট হচ্ছে\end{bnsnip}
+\begin{bnsnip}অবস্থান বদলান\end{bnsnip}
+\begin{bnsnip}পানি খাব\end{bnsnip}
+\begin{bnsnip}নার্সকে ডাকুন\end{bnsnip}
+\begin{bnsnip}হ্যাঁ\end{bnsnip}
+\begin{bnsnip}না\end{bnsnip}
+% ==== Emergency phrase utterances (pages 9 to 16)
+\begin{bnsnip}আমার সাকশন দরকার।\end{bnsnip}
+\begin{bnsnip}আমার খুব ব্যথা করছে।\end{bnsnip}
+\begin{bnsnip}আমার শ্বাস নিতে কষ্ট হচ্ছে।\end{bnsnip}
+\begin{bnsnip}আমাকে একটু সোজা করে দিন।\end{bnsnip}
+\begin{bnsnip}আমি পানি খাবো।\end{bnsnip}
+\begin{bnsnip}দয়া করে নার্সকে ডাকুন।\end{bnsnip}
+\begin{bnsnip}হ্যাঁ।\end{bnsnip}
+\begin{bnsnip}না।\end{bnsnip}
+% ==== Conjunct example and related text (pages 17 to 20)
+\begin{bnsnip}ক\,+\,◌্\,+\,ষ\,$\rightarrow$\,ক্ষ\end{bnsnip}
+\begin{bnsnip}হসন্ত\end{bnsnip}
+\begin{bnsnip}ক্ষ, জ্ঞ, ক্ত, ঙ্গ, শ্ন\end{bnsnip}
+\begin{bnsnip}◌্\end{bnsnip}
+% ==== Keyboard tab labels (pages 21 and 22)
+\begin{bnsnip}কখগ\end{bnsnip}
+\begin{bnsnip}অআ {\rmfamily\&} ১২৩\end{bnsnip}
+\end{document}
